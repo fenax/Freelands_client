@@ -19,7 +19,7 @@
 class Network
 {
 public:
-	Network(std::string server, Protocol::Protocol protocol);
+	Network(std::string server, Protocol::Protocol& protocol);
 
 	Protocol::Message*	process_message(NetworkBuffer &msg);
 
@@ -33,7 +33,7 @@ protected:
     boost::asio::ip::tcp::socket socket_;
 	boost::shared_ptr<boost::thread> thread_;
 
-	Protocol::Protocol protocol_;
+	Protocol::Protocol& protocol_;
 
     volatile bool stoprequested_;
 	std::string server_;

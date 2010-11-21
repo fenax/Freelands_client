@@ -57,11 +57,11 @@ NetworkBuffer::read_LE_uint8(){
 	return (unsigned)sgetc();
 }
 
-
+std::string
 NetworkBuffer::read_c_string(){
 	//TODO optimize
 	std::string out = "";
 	while( char c = sgetc() ){
-		out.append(c);
+		out.append(&c);
 	}
 }

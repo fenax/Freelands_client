@@ -20,7 +20,7 @@ class Protocol
 public:
 	Protocol();
 	virtual ~Protocol();
-	virtual Message Parse(NetworkBuffer&)=0;
+	virtual Message Parse(NetworkBuffer&,int)=0;
 };
 
 }

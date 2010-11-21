@@ -1,7 +1,7 @@
 #include "Network.h"
 
 
-Network::Network(std::string server, Protocol::Protocol protocol):
+Network::Network(std::string server, Protocol::Protocol& protocol):
 		socket_(io_),
 		server_(server),
 		stoprequested_(false),
