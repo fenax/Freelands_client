@@ -26,9 +26,12 @@ public:
 	void thread();
 	void start();
     void stop();
+    void connect();
 
 protected:
-
+    std::size_t to_read_;
+    boost::asio::io_service io_;
+    boost::asio::ip::tcp::socket socket_;
 	boost::shared_ptr<boost::thread> thread_;
     volatile bool stoprequested_;
 	std::string server_;
