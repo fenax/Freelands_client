@@ -50,7 +50,8 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_EternalLands_OBJECTS = main.$(OBJEXT) Network.$(OBJEXT) \
-	NetworkBuffer.$(OBJEXT) FatalNetworkException.$(OBJEXT)
+	NetworkBuffer.$(OBJEXT) FatalNetworkException.$(OBJEXT) \
+	Protocol.$(OBJEXT) ELProtocolV0.$(OBJEXT)
 EternalLands_OBJECTS = $(am_EternalLands_OBJECTS)
 am__DEPENDENCIES_1 =
 EternalLands_DEPENDENCIES = $(am__DEPENDENCIES_1) \
@@ -176,7 +177,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = $(OGRE_CFLAGS) $(BOOST_CPPFLAGS)
-EternalLands_SOURCES = main.c++ Network.c++ NetworkBuffer.c++ FatalNetworkException.c++
+EternalLands_SOURCES = main.c++ Network.c++ NetworkBuffer.c++ \
+	FatalNetworkException.c++ Protocol/Protocol.c++ \
+	Protocol/ELProtocolV0.c++
 EternalLands_LDADD = $(OGRE_LIBS) $(BOOST_LDFLAGS) -lboost_thread
 all: all-am
 
@@ -259,9 +262,11 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ELProtocolV0.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FatalNetworkException.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Network.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NetworkBuffer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Protocol.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 
 .c++.o:
@@ -277,6 +282,34 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+Protocol.o: Protocol/Protocol.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Protocol.o -MD -MP -MF $(DEPDIR)/Protocol.Tpo -c -o Protocol.o `test -f 'Protocol/Protocol.c++' || echo '$(srcdir)/'`Protocol/Protocol.c++
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Protocol.Tpo $(DEPDIR)/Protocol.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Protocol/Protocol.c++' object='Protocol.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Protocol.o `test -f 'Protocol/Protocol.c++' || echo '$(srcdir)/'`Protocol/Protocol.c++
+
+Protocol.obj: Protocol/Protocol.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Protocol.obj -MD -MP -MF $(DEPDIR)/Protocol.Tpo -c -o Protocol.obj `if test -f 'Protocol/Protocol.c++'; then $(CYGPATH_W) 'Protocol/Protocol.c++'; else $(CYGPATH_W) '$(srcdir)/Protocol/Protocol.c++'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Protocol.Tpo $(DEPDIR)/Protocol.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Protocol/Protocol.c++' object='Protocol.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Protocol.obj `if test -f 'Protocol/Protocol.c++'; then $(CYGPATH_W) 'Protocol/Protocol.c++'; else $(CYGPATH_W) '$(srcdir)/Protocol/Protocol.c++'; fi`
+
+ELProtocolV0.o: Protocol/ELProtocolV0.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ELProtocolV0.o -MD -MP -MF $(DEPDIR)/ELProtocolV0.Tpo -c -o ELProtocolV0.o `test -f 'Protocol/ELProtocolV0.c++' || echo '$(srcdir)/'`Protocol/ELProtocolV0.c++
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ELProtocolV0.Tpo $(DEPDIR)/ELProtocolV0.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Protocol/ELProtocolV0.c++' object='ELProtocolV0.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ELProtocolV0.o `test -f 'Protocol/ELProtocolV0.c++' || echo '$(srcdir)/'`Protocol/ELProtocolV0.c++
+
+ELProtocolV0.obj: Protocol/ELProtocolV0.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ELProtocolV0.obj -MD -MP -MF $(DEPDIR)/ELProtocolV0.Tpo -c -o ELProtocolV0.obj `if test -f 'Protocol/ELProtocolV0.c++'; then $(CYGPATH_W) 'Protocol/ELProtocolV0.c++'; else $(CYGPATH_W) '$(srcdir)/Protocol/ELProtocolV0.c++'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/ELProtocolV0.Tpo $(DEPDIR)/ELProtocolV0.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Protocol/ELProtocolV0.c++' object='ELProtocolV0.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ELProtocolV0.obj `if test -f 'Protocol/ELProtocolV0.c++'; then $(CYGPATH_W) 'Protocol/ELProtocolV0.c++'; else $(CYGPATH_W) '$(srcdir)/Protocol/ELProtocolV0.c++'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

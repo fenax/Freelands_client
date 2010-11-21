@@ -1,10 +1,16 @@
 #ifndef PROTOCOL_MESSAGE_H_
 #define PROTOCOL_MESSAGE_H_
+
+#include <boost/cstdint.hpp>
+
+#include "NetworkBuffer.h"
+
 namespace Protocol{
 
-	class ProtocolMessage {
-		virtual ~ProtocolMessage(){}
-		virtual ProtocolMessage create(NetworkBuffer );
+	class Message {
+//		virtual ~Message(){}
+		static Message * create(NetworkBuffer, boost::int8_t );
+
 	};
 
 }

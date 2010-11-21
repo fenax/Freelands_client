@@ -1,35 +1,22 @@
 #include "Network.h"
 
-using boost::asio::ip::tcp;
-using boost::asio;
 
-
-
-
-
-ProtocolMessage*
-Network::process_message(NetworkBuffer& msg){
-	std::map<int, ProtocolMessage* (*)(NetworkBuffer&)>::iterator
-			it = handlers_.find(msg.read_LE_int16());
-	if(it == handlers_.end()){
-		throw new FatalNetworkException();
-	}
-	return it->second(msg);
-}
-
-Network::Network(std::string server){
-	server_ = server;
-	stoprequested_ = false;
+Network::Network(std::string server, Protocol::Protocol protocol):
+		socket_(io_),
+		server_(server),
+		stoprequested_(false),
+		protocol_(protocol)
+{
 }
 
 void
 Network::connect(){
-    resolver resolver(io_);
-    resolver::query query(server_);
-    resolver::iterator endpoint_iterator = resolver.resolve(query);
-    resolver::iterator end;
+	boost::asio::ip::tcp::resolver resolver(io_);
+	boost::asio::ip::tcp::resolver::query query(server_);
+	boost::asio::ip::tcp::resolver::iterator
+		endpoint_iterator = resolver.resolve(query);
+	boost::asio::ip::tcp::resolver::iterator end;
 
-    socket_ = socket(io_);
     boost::system::error_code error = boost::asio::error::host_not_found;
     while (error && endpoint_iterator != end)
     {
@@ -40,33 +27,28 @@ Network::connect(){
       throw boost::system::system_error(error);
 }
 
-class LimitedReader{
-	int len_;
-	LimitedReader(int len){
-		len_ = len;
-	}
-	std::size_t
-	completion_condition(// Result of latest read_some operation.
-						const boost::system::error_code& error,
-
-						// Number of bytes transferred so far.
-						std::size_t bytes_transferred){
-		//TODO errors
-		return len - bytes_transferred;
-	}
-};
-
 
 void
 Network::thread(){
 	while(!stoprequested_){
-		NetworkBuffer size;
+		NetworkBuffer * buff = new NetworkBuffer();
 
-		NetworkBuffer buff();
 		boost::system::error_code error;
-		boost::asio::read(socket_,size,LimitedReader(2));
-		boost::asio::read(socket_,buff,LimitedReader(size.read_LE_int16()));
-		process_message(buff);//TODO do something with received message
+
+		int read =
+		boost::asio::read(socket_,
+				*(boost::asio::basic_streambuf< std::allocator<char> > *)buff,
+				boost::asio::transfer_at_least(3));//fugly downcasting
+
+		int type = buff->read_LE_uint8();
+		int size = buff->read_LE_uint16();
+
+		boost::asio::read(socket_,
+				*(boost::asio::basic_streambuf< std::allocator<char> > *)buff,
+				boost::asio::transfer_at_least(size + 2 - read));
+		protocol_.Parse(*buff, type);//TODO do something with received message
+
+		delete buff;
 	}
 }
 

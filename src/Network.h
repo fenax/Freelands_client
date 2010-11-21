@@ -13,15 +13,15 @@
 #include <boost/thread.hpp>
 
 #include "FatalNetworkException.h"
-#include "ProtocolMessage.h"
+#include "Protocol/Protocol.h"
 #include "NetworkBuffer.h"
 
 class Network
 {
 public:
-	Network(std::string server);
+	Network(std::string server, Protocol::Protocol protocol);
 
-	ProtocolMessage*	process_message(NetworkBuffer msg);
+	Protocol::Message*	process_message(NetworkBuffer &msg);
 
 	void thread();
 	void start();
@@ -29,13 +29,14 @@ public:
     void connect();
 
 protected:
-    std::size_t to_read_;
     boost::asio::io_service io_;
     boost::asio::ip::tcp::socket socket_;
 	boost::shared_ptr<boost::thread> thread_;
+
+	Protocol::Protocol protocol_;
+
     volatile bool stoprequested_;
 	std::string server_;
-	std::map<int, ProtocolMessage* (*)(NetworkBuffer&)> handlers_;
 
 };
 

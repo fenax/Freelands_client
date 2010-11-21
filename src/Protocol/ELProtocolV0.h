@@ -8,12 +8,19 @@
 #ifndef ELPROTOCOLV0_H_
 #define ELPROTOCOLV0_H_
 
+#include <boost/cstdint.hpp>
+
+#include "NetworkBuffer.h"
+#include "Message.h"
+#include "Protocol.h"
+
 namespace Protocol {
 
-class ELProtocolV0 {
+class ELProtocolV0 : public Protocol{
 public:
 	ELProtocolV0();
 	virtual ~ELProtocolV0();
+	virtual Message Parse(NetworkBuffer,boost::uint_8t);
 };
 
 }
