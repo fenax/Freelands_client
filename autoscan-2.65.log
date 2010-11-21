@@ -1,0 +1,6 @@
+autoscan-2.65: warning: missing AC_HEADER_STDBOOL wanted by: 
+	src/Network.h:33
+autoscan-2.65: warning: missing AC_TYPE_INT16_T wanted by: 
+	src/NetworkBuffer.h:24
+autoscan-2.65: warning: missing AC_TYPE_INT32_T wanted by: 
+	src/NetworkBuffer.h:23

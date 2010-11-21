@@ -3,8 +3,8 @@ dnl Process this file with autoconf to produce a configure script.
 
 m4_include(ax_boost_base.m4)
 
-AC_PREREQ(2.65)
-AC_INIT([EL_Client],[0.0.1])
+AC_PREREQ(2.59)
+AC_INIT(EL_Client, 0.0.1)
           
 dnl check for programs
 AC_PROG_CC
@@ -12,7 +12,7 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 
 
-AC_CANONICAL_TARGET
+AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 
 
