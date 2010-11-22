@@ -1,5 +1,5 @@
 
-AM_CPPFLAGS = $(OGRE_CFLAGS) $(BOOST_CPPFLAGS)
+AM_CPPFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(BOOST_CPPFLAGS)
 
 bin_PROGRAMS=EternalLands
 
@@ -14,4 +14,4 @@ EternalLands_SOURCES += Protocol/ELProtocolV0.c++
 EternalLands_SOURCES += Protocol/RawTextMessage.c++
 
 
-EternalLands_LDADD = $(OGRE_LIBS) $(BOOST_LDFLAGS) -lboost_thread
+EternalLands_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(BOOST_LDFLAGS) -lboost_thread
