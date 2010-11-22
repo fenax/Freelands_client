@@ -1,23 +1,37 @@
-/*
- ============================================================================
- Name        : EL_Client.cpp
- Author      : Guillaume Minet "Fenax"
- Version     :
- Copyright   : Your copyright notice
- Description : Hello World in C++,
- ============================================================================
- */
+#include "MinimalOgre.h"
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#define WIN32_LEAN_AND_MEAN
+#include "windows.h"
 #endif
 
-#include <iostream>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-using namespace std;
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+    INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
+#else
+    int main(int argc, char *argv[])
+#endif
+    {
+        // Create application object
+        MinimalOgre app;
 
-int main(void) {
-	cout << "!!!Hello World!!!" << endl; /* prints !!!Hello World!!! */
-	cout << 42 << endl;
-	return 0;
+        try {
+            app.go();
+        } catch( Ogre::Exception& e ) {
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+            MessageBox( NULL, e.getFullDescription().c_str(), "An exception has occured!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+#else
+            std::cerr << "An exception has occured: " <<
+                e.getFullDescription().c_str() << std::endl;
+#endif
+        }
+
+        return 0;
+    }
+
+#ifdef __cplusplus
 }
+#endif

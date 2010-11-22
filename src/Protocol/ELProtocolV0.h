@@ -20,7 +20,7 @@ class ELProtocolV0 : public Protocol{
 public:
 	ELProtocolV0();
 	virtual ~ELProtocolV0();
-	virtual Message Parse(NetworkBuffer,int);
+	virtual Message Parse(NetworkBuffer&,int);
 };
 
 }

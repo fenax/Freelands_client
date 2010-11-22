@@ -5,6 +5,8 @@
  *      Author: fenax
  */
 
+#include <iostream>
+
 #include "ELProtocolV0.h"
 #include "MessageTypeV0.h"
 #include "RawTextMessage.h"
@@ -21,7 +23,7 @@ ELProtocolV0::~ELProtocolV0() {
 }
 
 Message
-ELProtocolV0::Parse(NetworkBuffer message, int type){
+ELProtocolV0::Parse(NetworkBuffer & message, int type){
 	MessageTypeV0 message_type = (MessageTypeV0)type;
 	switch(message_type){
 		case RAW_TEXT :
@@ -846,9 +848,9 @@ ELProtocolV0::Parse(NetworkBuffer message, int type){
 	}
 
 	if(int len = message.in_avail()){
-		cout << "Message was not red entirely";
+		std::cout << "Message was not red entirely";
 		for(int i = 0; i < len; i++){
-			cout << message.read_LE_int8();
+			std::cout << message.read_LE_int8();
 		}
 	}
 };
