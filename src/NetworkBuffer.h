@@ -14,6 +14,7 @@
 
 #include <boost/cstdint.hpp>
 #include <boost/asio.hpp>
+#include <string>
 
 class NetworkBuffer : public boost::asio::basic_streambuf< std::allocator<char> > {
 public:
@@ -29,7 +30,15 @@ public:
 	boost::uint32_t read_LE_uint32();
 	boost::uint16_t read_LE_uint16();
 	boost::uint8_t read_LE_uint8();
+
 	std::string read_c_string();
+
+	void write_LE_int32(boost::int32_t value);
+	void write_LE_int16(boost::int16_t value);
+	void write_LE_int8(boost::int8_t value);
+
+	void write_c_string(std::string value);
+
 };
 
 #endif /* NETWORK_BUFFER_H_ */

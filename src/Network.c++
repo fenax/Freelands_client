@@ -46,7 +46,7 @@ Network::thread(){
 		boost::asio::read(socket_,
 				*(boost::asio::basic_streambuf< std::allocator<char> > *)buff,
 				boost::asio::transfer_at_least(size + 2 - read));
-		protocol_.Parse(*buff, type);//TODO do something with received message
+		protocol_.parse(*buff, type);//TODO do something with received message
 
 		delete buff;
 	}

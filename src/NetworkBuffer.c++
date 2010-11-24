@@ -7,6 +7,7 @@
 
 #include "NetworkBuffer.h"
 
+
 NetworkBuffer::NetworkBuffer() {
 	// TODO Auto-generated constructor stub
 
@@ -27,6 +28,14 @@ NetworkBuffer::read_LE_int32(){
 	return out;
 }
 
+void NetworkBuffer::write_LE_int32(boost::int32_t value){
+	sputc((char)(value&0xFF000000) >> 24);
+	sputc((char)(value&0xFF0000) >> 16);
+	sputc((char)(value&0xFF00) >> 8);
+	sputc((char) value&0xFF);
+}
+
+
 boost::uint32_t
 NetworkBuffer::read_LE_uint32(){
 	return (unsigned)read_LE_int32();
@@ -41,6 +50,11 @@ NetworkBuffer::read_LE_int16(){
 	return out;
 }
 
+void NetworkBuffer::write_LE_int16(boost::int16_t value){
+	sputc((char)(value&0xFF00) >> 8);
+	sputc((char) value&0xFF);
+}
+
 boost::uint16_t
 NetworkBuffer::read_LE_uint16(){
 	return (unsigned)read_LE_int16();
@@ -50,6 +64,11 @@ NetworkBuffer::read_LE_uint16(){
 boost::int8_t
 NetworkBuffer::read_LE_int8(){
 	return sgetc();
+}
+
+void
+NetworkBuffer::write_LE_int8(boost::int8_t value){
+	sputc(value);
 }
 
 boost::uint8_t
@@ -64,4 +83,8 @@ NetworkBuffer::read_c_string(){
 	while( char c = sgetc() ){
 		out.append(&c);
 	}
+}
+
+void NetworkBuffer::write_c_string(std::string value){
+	sputn(value.c_str(),value.size()+1);
 }

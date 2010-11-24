@@ -2,10 +2,6 @@
 #define NETWORK_H_
 
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
-#endif
-
 #include <string>
 #include <map>
 
@@ -19,9 +15,8 @@
 class Network
 {
 public:
-	Network(std::string server, Protocol::Protocol& protocol);
+	Network(std::string server, Protocol::Protocol & protocol);
 
-	Protocol::Message*	process_message(NetworkBuffer &msg);
 
 	void thread();
 	void start();
