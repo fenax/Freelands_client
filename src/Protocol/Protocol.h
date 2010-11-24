@@ -9,6 +9,7 @@
 #define PROTOCOL_H_
 
 #include "NetworkBuffer.h"
+#include "Network.h"
 #include "Message.h"
 
 
@@ -20,6 +21,7 @@ class Protocol
 public:
 	Protocol();
 	virtual ~Protocol();
+
 	virtual Message Parse(NetworkBuffer&,int)=0;
 };
 
