@@ -3,13 +3,11 @@
 
 #include <boost/cstdint.hpp>
 
-#include "NetworkBuffer.h"
 
-namespace Protocol{
+namespace Game{
 
 	class Message {
 //		virtual ~Message(){}
-		static Message * create(NetworkBuffer, boost::int8_t );
 
 	};
 
