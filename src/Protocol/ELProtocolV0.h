@@ -21,6 +21,7 @@ public:
 	ELProtocolV0();
 	virtual ~ELProtocolV0();
 	virtual Message Parse(NetworkBuffer&,int);
+	virtual int Send(NetworkBuffer&);
 };
 
 }

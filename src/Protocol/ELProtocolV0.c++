@@ -22,6 +22,11 @@ ELProtocolV0::~ELProtocolV0() {
 	// TODO Auto-generated destructor stub
 }
 
+int // return value is message type
+ELProtocolV0::Send(NetworkBuffer& networkbuffer){
+//	typeid(ELProtocolV0).
+}
+
 Message
 ELProtocolV0::Parse(NetworkBuffer & message, int type){
 	MessageTypeV0 message_type = (MessageTypeV0)type;

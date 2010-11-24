@@ -22,7 +22,8 @@ public:
 	Protocol();
 	virtual ~Protocol();
 
-	virtual Message Parse(NetworkBuffer&,int)=0;
+	virtual void Parse(NetworkBuffer&,int)=0;
+	virtual int Send(NetworkBuffer&)=0;
 };
 
 }
