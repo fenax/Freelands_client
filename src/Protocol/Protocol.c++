@@ -10,7 +10,8 @@
 namespace Protocol
 {
 
-Protocol::Protocol()
+Protocol::Protocol(Game::GameManager game_manager):
+		game_manager_(game_manager)
 {
 	// TODO Auto-generated constructor stub
 
@@ -19,6 +20,10 @@ Protocol::Protocol()
 Protocol::~Protocol()
 {
 	// TODO Auto-generated destructor stub
+}
+
+Protocol::getGameManager(){
+	return game_manager_;
 }
 
 }

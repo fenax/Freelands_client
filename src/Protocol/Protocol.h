@@ -9,8 +9,7 @@
 #define PROTOCOL_H_
 
 #include "NetworkBuffer.h"
-#include "Network.h"
-#include "Message.h"
+#include "Game/GameManager.h"
 
 
 namespace Protocol
@@ -18,12 +17,15 @@ namespace Protocol
 
 class Protocol
 {
+private:
+	Game::GameManager & game_manager_;
 public:
-	Protocol();
+	Protocol(Game::GameManager game_manager);
 	virtual ~Protocol();
 
-	virtual void Parse(NetworkBuffer&,int)=0;
-	virtual int Send(NetworkBuffer&)=0;
+	virtual void parse(NetworkBuffer&,int)=0;
+	virtual int send(NetworkBuffer&)=0;
+	Game::GameManager & getGameManager();
 };
 
 }
