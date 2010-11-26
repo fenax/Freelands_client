@@ -54,10 +54,10 @@ public:
 		return;
 	}
 	//	pop	Delete next element (public member function)
-	T&
+	void
 	pop(){
 		boost::unique_lock<boost::mutex> lock(mutex_);
-		return std::queue<T,std::deque<T> >::pop();
+		std::queue<T,std::deque<T> >::pop();
 	}
 };
 

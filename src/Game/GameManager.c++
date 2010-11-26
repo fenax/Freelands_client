@@ -5,6 +5,8 @@
  *      Author: fenax
  */
 
+#include <iostream>
+
 #include "GameManager.h"
 
 namespace Game
@@ -19,6 +21,15 @@ GameManager::GameManager()
 GameManager::~GameManager()
 {
 	// TODO Auto-generated destructor stub
+}
+
+void
+GameManager::giveError(std::string type, std::string message){
+	std::cout << "error, could not " << type << " : " << message << std::endl;
+}
+void
+GameManager::giveOk(std::string type, std::string message){
+	std::cout << type << "Ok " << " : " << message << std::endl;
 }
 
 }

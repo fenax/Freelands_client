@@ -12,12 +12,13 @@
 
 #include <boost/cstdint.hpp>
 
-#include "Message.h"
+#include "Game/Message.h"
 
-namespace Protocol
+namespace Game
 {
-
-class RawTextMessage : public Message
+namespace Messages
+{
+class RawTextMessage : public Game::Message
 {
 public:
 	RawTextMessage();
@@ -29,7 +30,7 @@ public:
 	boost::int8_t color_;
 	std::string message_;
 };
-
+}
 }
 
 #endif /* RAWTEXTMESSAGE_H_ */

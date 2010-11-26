@@ -8,7 +8,6 @@
 #ifndef LOGIN_H_
 #define LOGIN_H_
 
-#include "Message.h"
 #include <string>
 namespace Game
 {
@@ -19,14 +18,14 @@ namespace Messages
 class Login: public virtual Game::Message
 {
 private:
-	string username_;
-	string password_;
+	std::string username_;
+	std::string password_;
 public:
-	Login(string username, string password);
+	Login(std::string username, std::string password);
 	virtual ~Login();
 
-	string GetUsername();
-	string GetPassword();
+	std::string getUsername();
+	std::string getPassword();
 };
 
 }

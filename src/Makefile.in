@@ -49,14 +49,14 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_EternalLands_OBJECTS = main.$(OBJEXT) Network.$(OBJEXT) \
-	NetworkBuffer.$(OBJEXT) FatalNetworkException.$(OBJEXT) \
-	Protocol.$(OBJEXT) ELProtocolV0.$(OBJEXT) \
-	RawTextMessage.$(OBJEXT)
+am_EternalLands_OBJECTS = main.$(OBJEXT) TcpNetwork.$(OBJEXT) \
+	Buffer.$(OBJEXT) FatalNetworkException.$(OBJEXT) \
+	MinimalOgre.$(OBJEXT) Protocol.$(OBJEXT) \
+	ELProtocolV0.$(OBJEXT) GameManager.$(OBJEXT)
 EternalLands_OBJECTS = $(am_EternalLands_OBJECTS)
 am__DEPENDENCIES_1 =
 EternalLands_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -107,6 +107,8 @@ MKDIR_P = @MKDIR_P@
 OBJEXT = @OBJEXT@
 OGRE_CFLAGS = @OGRE_CFLAGS@
 OGRE_LIBS = @OGRE_LIBS@
+OIS_CFLAGS = @OIS_CFLAGS@
+OIS_LIBS = @OIS_LIBS@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
@@ -177,11 +179,12 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CPPFLAGS = $(OGRE_CFLAGS) $(BOOST_CPPFLAGS)
-EternalLands_SOURCES = main.c++ Network.c++ NetworkBuffer.c++ \
-	FatalNetworkException.c++ Protocol/Protocol.c++ \
-	Protocol/ELProtocolV0.c++ Protocol/RawTextMessage.c++
-EternalLands_LDADD = $(OGRE_LIBS) $(BOOST_LDFLAGS) -lboost_thread
+AM_CPPFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(BOOST_CPPFLAGS)
+EternalLands_SOURCES = main.c++ Network/TcpNetwork.c++ \
+	Network/Buffer.c++ Network/FatalNetworkException.c++ \
+	MinimalOgre.c++ Protocol/Protocol.c++ \
+	Protocol/ELProtocolV0.c++ Game/GameManager.c++
+EternalLands_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(BOOST_LDFLAGS) -lboost_thread
 all: all-am
 
 .SUFFIXES:
@@ -263,12 +266,13 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Buffer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ELProtocolV0.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FatalNetworkException.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Network.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NetworkBuffer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GameManager.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MinimalOgre.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Protocol.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/RawTextMessage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TcpNetwork.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 
 .c++.o:
@@ -284,6 +288,48 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+TcpNetwork.o: Network/TcpNetwork.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT TcpNetwork.o -MD -MP -MF $(DEPDIR)/TcpNetwork.Tpo -c -o TcpNetwork.o `test -f 'Network/TcpNetwork.c++' || echo '$(srcdir)/'`Network/TcpNetwork.c++
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/TcpNetwork.Tpo $(DEPDIR)/TcpNetwork.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Network/TcpNetwork.c++' object='TcpNetwork.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o TcpNetwork.o `test -f 'Network/TcpNetwork.c++' || echo '$(srcdir)/'`Network/TcpNetwork.c++
+
+TcpNetwork.obj: Network/TcpNetwork.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT TcpNetwork.obj -MD -MP -MF $(DEPDIR)/TcpNetwork.Tpo -c -o TcpNetwork.obj `if test -f 'Network/TcpNetwork.c++'; then $(CYGPATH_W) 'Network/TcpNetwork.c++'; else $(CYGPATH_W) '$(srcdir)/Network/TcpNetwork.c++'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/TcpNetwork.Tpo $(DEPDIR)/TcpNetwork.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Network/TcpNetwork.c++' object='TcpNetwork.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o TcpNetwork.obj `if test -f 'Network/TcpNetwork.c++'; then $(CYGPATH_W) 'Network/TcpNetwork.c++'; else $(CYGPATH_W) '$(srcdir)/Network/TcpNetwork.c++'; fi`
+
+Buffer.o: Network/Buffer.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Buffer.o -MD -MP -MF $(DEPDIR)/Buffer.Tpo -c -o Buffer.o `test -f 'Network/Buffer.c++' || echo '$(srcdir)/'`Network/Buffer.c++
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Buffer.Tpo $(DEPDIR)/Buffer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Network/Buffer.c++' object='Buffer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Buffer.o `test -f 'Network/Buffer.c++' || echo '$(srcdir)/'`Network/Buffer.c++
+
+Buffer.obj: Network/Buffer.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Buffer.obj -MD -MP -MF $(DEPDIR)/Buffer.Tpo -c -o Buffer.obj `if test -f 'Network/Buffer.c++'; then $(CYGPATH_W) 'Network/Buffer.c++'; else $(CYGPATH_W) '$(srcdir)/Network/Buffer.c++'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Buffer.Tpo $(DEPDIR)/Buffer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Network/Buffer.c++' object='Buffer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Buffer.obj `if test -f 'Network/Buffer.c++'; then $(CYGPATH_W) 'Network/Buffer.c++'; else $(CYGPATH_W) '$(srcdir)/Network/Buffer.c++'; fi`
+
+FatalNetworkException.o: Network/FatalNetworkException.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT FatalNetworkException.o -MD -MP -MF $(DEPDIR)/FatalNetworkException.Tpo -c -o FatalNetworkException.o `test -f 'Network/FatalNetworkException.c++' || echo '$(srcdir)/'`Network/FatalNetworkException.c++
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/FatalNetworkException.Tpo $(DEPDIR)/FatalNetworkException.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Network/FatalNetworkException.c++' object='FatalNetworkException.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o FatalNetworkException.o `test -f 'Network/FatalNetworkException.c++' || echo '$(srcdir)/'`Network/FatalNetworkException.c++
+
+FatalNetworkException.obj: Network/FatalNetworkException.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT FatalNetworkException.obj -MD -MP -MF $(DEPDIR)/FatalNetworkException.Tpo -c -o FatalNetworkException.obj `if test -f 'Network/FatalNetworkException.c++'; then $(CYGPATH_W) 'Network/FatalNetworkException.c++'; else $(CYGPATH_W) '$(srcdir)/Network/FatalNetworkException.c++'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/FatalNetworkException.Tpo $(DEPDIR)/FatalNetworkException.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Network/FatalNetworkException.c++' object='FatalNetworkException.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o FatalNetworkException.obj `if test -f 'Network/FatalNetworkException.c++'; then $(CYGPATH_W) 'Network/FatalNetworkException.c++'; else $(CYGPATH_W) '$(srcdir)/Network/FatalNetworkException.c++'; fi`
 
 Protocol.o: Protocol/Protocol.c++
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Protocol.o -MD -MP -MF $(DEPDIR)/Protocol.Tpo -c -o Protocol.o `test -f 'Protocol/Protocol.c++' || echo '$(srcdir)/'`Protocol/Protocol.c++
@@ -313,19 +359,19 @@ ELProtocolV0.obj: Protocol/ELProtocolV0.c++
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ELProtocolV0.obj `if test -f 'Protocol/ELProtocolV0.c++'; then $(CYGPATH_W) 'Protocol/ELProtocolV0.c++'; else $(CYGPATH_W) '$(srcdir)/Protocol/ELProtocolV0.c++'; fi`
 
-RawTextMessage.o: Protocol/RawTextMessage.c++
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT RawTextMessage.o -MD -MP -MF $(DEPDIR)/RawTextMessage.Tpo -c -o RawTextMessage.o `test -f 'Protocol/RawTextMessage.c++' || echo '$(srcdir)/'`Protocol/RawTextMessage.c++
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/RawTextMessage.Tpo $(DEPDIR)/RawTextMessage.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Protocol/RawTextMessage.c++' object='RawTextMessage.o' libtool=no @AMDEPBACKSLASH@
+GameManager.o: Game/GameManager.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT GameManager.o -MD -MP -MF $(DEPDIR)/GameManager.Tpo -c -o GameManager.o `test -f 'Game/GameManager.c++' || echo '$(srcdir)/'`Game/GameManager.c++
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/GameManager.Tpo $(DEPDIR)/GameManager.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/GameManager.c++' object='GameManager.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o RawTextMessage.o `test -f 'Protocol/RawTextMessage.c++' || echo '$(srcdir)/'`Protocol/RawTextMessage.c++
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o GameManager.o `test -f 'Game/GameManager.c++' || echo '$(srcdir)/'`Game/GameManager.c++
 
-RawTextMessage.obj: Protocol/RawTextMessage.c++
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT RawTextMessage.obj -MD -MP -MF $(DEPDIR)/RawTextMessage.Tpo -c -o RawTextMessage.obj `if test -f 'Protocol/RawTextMessage.c++'; then $(CYGPATH_W) 'Protocol/RawTextMessage.c++'; else $(CYGPATH_W) '$(srcdir)/Protocol/RawTextMessage.c++'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/RawTextMessage.Tpo $(DEPDIR)/RawTextMessage.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Protocol/RawTextMessage.c++' object='RawTextMessage.obj' libtool=no @AMDEPBACKSLASH@
+GameManager.obj: Game/GameManager.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT GameManager.obj -MD -MP -MF $(DEPDIR)/GameManager.Tpo -c -o GameManager.obj `if test -f 'Game/GameManager.c++'; then $(CYGPATH_W) 'Game/GameManager.c++'; else $(CYGPATH_W) '$(srcdir)/Game/GameManager.c++'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/GameManager.Tpo $(DEPDIR)/GameManager.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/GameManager.c++' object='GameManager.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o RawTextMessage.obj `if test -f 'Protocol/RawTextMessage.c++'; then $(CYGPATH_W) 'Protocol/RawTextMessage.c++'; else $(CYGPATH_W) '$(srcdir)/Protocol/RawTextMessage.c++'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o GameManager.obj `if test -f 'Game/GameManager.c++'; then $(CYGPATH_W) 'Game/GameManager.c++'; else $(CYGPATH_W) '$(srcdir)/Game/GameManager.c++'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

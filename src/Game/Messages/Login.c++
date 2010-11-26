@@ -25,13 +25,13 @@ Login::~Login()
 }
 
 string
-Login::GetUsername()
+Login::getUsername()
 {
 	return username_;
 }
 
 string
-Login::GetPassword()
+Login::getPassword()
 {
 	return password_;
 }

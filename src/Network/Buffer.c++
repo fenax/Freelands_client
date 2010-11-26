@@ -5,20 +5,21 @@
  *      Author: fenax
  */
 
-#include "NetworkBuffer.h"
+#include "Network/Buffer.h"
 
+namespace Network{
 
-NetworkBuffer::NetworkBuffer() {
+Buffer::Buffer() {
 	// TODO Auto-generated constructor stub
 
 }
 
-NetworkBuffer::~NetworkBuffer() {
+Buffer::~Buffer() {
 	// TODO Auto-generated destructor stub
 }
 
 boost::int32_t
-NetworkBuffer::read_LE_int32(){
+Buffer::read_LE_int32(){
 	//TODO check for end of buffer and subsequent exceptions
 	boost::int32_t out = 0;
 	out |= boost::int32_t (sgetc())<<24;
@@ -28,7 +29,7 @@ NetworkBuffer::read_LE_int32(){
 	return out;
 }
 
-void NetworkBuffer::write_LE_int32(boost::int32_t value){
+void Buffer::write_LE_int32(boost::int32_t value){
 	sputc((char)(value&0xFF000000) >> 24);
 	sputc((char)(value&0xFF0000) >> 16);
 	sputc((char)(value&0xFF00) >> 8);
@@ -37,47 +38,47 @@ void NetworkBuffer::write_LE_int32(boost::int32_t value){
 
 
 boost::uint32_t
-NetworkBuffer::read_LE_uint32(){
+Buffer::read_LE_uint32(){
 	return (unsigned)read_LE_int32();
 }
 
 
 boost::int16_t
-NetworkBuffer::read_LE_int16(){
+Buffer::read_LE_int16(){
 	boost::int16_t out = 0;
 	out |= boost::int16_t (sgetc())<<8;
 	out |= boost::int16_t (sgetc());
 	return out;
 }
 
-void NetworkBuffer::write_LE_int16(boost::int16_t value){
+void Buffer::write_LE_int16(boost::int16_t value){
 	sputc((char)(value&0xFF00) >> 8);
 	sputc((char) value&0xFF);
 }
 
 boost::uint16_t
-NetworkBuffer::read_LE_uint16(){
+Buffer::read_LE_uint16(){
 	return (unsigned)read_LE_int16();
 }
 
 
 boost::int8_t
-NetworkBuffer::read_LE_int8(){
+Buffer::read_LE_int8(){
 	return sgetc();
 }
 
 void
-NetworkBuffer::write_LE_int8(boost::int8_t value){
+Buffer::write_LE_int8(boost::int8_t value){
 	sputc(value);
 }
 
 boost::uint8_t
-NetworkBuffer::read_LE_uint8(){
+Buffer::read_LE_uint8(){
 	return (unsigned)sgetc();
 }
 
 std::string
-NetworkBuffer::read_c_string(){
+Buffer::read_c_string(){
 	//TODO optimize
 	std::string out = "";
 	while( char c = sgetc() ){
@@ -85,6 +86,7 @@ NetworkBuffer::read_c_string(){
 	}
 }
 
-void NetworkBuffer::write_c_string(std::string value){
+void Buffer::write_c_string(std::string value){
 	sputn(value.c_str(),value.size()+1);
+}
 }

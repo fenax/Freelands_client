@@ -1,4 +1,8 @@
 #include "MinimalOgre.h"
+#include "Game/GameManager.h"
+#include "Protocol/ELProtocolV0.h"
+#include "Tools/Configuration.h"
+#include "Network/TcpNetwork.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -19,7 +23,22 @@ extern "C" {
         MinimalOgre app;
 
         try {
-            app.go();
+        	Tools::Configuration configuration;
+        	Game::GameManager game_manager;
+        	Protocol::ELProtocolV0 protocol(game_manager);
+        	Network::TcpNetwork network(configuration.server, protocol);
+
+        	network.connect();
+        	network.start();
+
+        	protocol.sendLogin("login","password");
+
+            //app.go();
+
+
+        	while(true);
+
+
         } catch( Ogre::Exception& e ) {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
             MessageBox( NULL, e.getFullDescription().c_str(), "An exception has occured!", MB_OK | MB_ICONERROR | MB_TASKMODAL);

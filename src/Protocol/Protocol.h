@@ -8,8 +8,10 @@
 #ifndef PROTOCOL_H_
 #define PROTOCOL_H_
 
-#include "NetworkBuffer.h"
+#include "Network/Buffer.h"
+
 #include "Game/GameManager.h"
+#include "Network/Sender.h"
 
 
 namespace Protocol
@@ -19,13 +21,25 @@ class Protocol
 {
 private:
 	Game::GameManager & game_manager_;
+	Network::Sender * sender_;
+protected:
 public:
-	Protocol(Game::GameManager game_manager);
+	Protocol(Game::GameManager & game_manager);
 	virtual ~Protocol();
 
-	virtual void parse(NetworkBuffer&,int)=0;
-	virtual int send(NetworkBuffer&)=0;
+	virtual void parse(Network::Buffer&)=0;
+	//virtual void send(NetworkBuffer&,int & type)=0;
 	Game::GameManager & getGameManager();
+	Network::Sender & getNetworkSender();
+
+	void registerNetworkSender(Network::Sender &);
+
+	virtual void sendMessage(std::string message)=0;
+	virtual void sendLogin(std::string username, std::string password)=0;
+	virtual int getAmountToRead()=0;
+
+
+
 };
 
 }

@@ -5,8 +5,8 @@
  *      Author: fenax
  */
 
-#ifndef FATAL_NETWORK_EXCEPTION_H_
-#define FATAL_NETWORK_EXCEPTION_H_
+#ifndef NETWORK_FATAL_NETWORK_EXCEPTION_H_
+#define NETWORK_FATAL_NETWORK_EXCEPTION_H_
 
 #include <exception>
 
@@ -20,4 +20,4 @@ public:
 	virtual const char* what() const throw();
 };
 
-#endif /* FATAL_NETWORK_EXCEPTION_H_ */
+#endif /* NETWORK_FATAL_NETWORK_EXCEPTION_H_ */

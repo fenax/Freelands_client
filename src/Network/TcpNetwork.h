@@ -1,5 +1,5 @@
-#ifndef NETWORK_H_
-#define NETWORK_H_
+#ifndef NETWORK_TCP_NETWORK_H_
+#define NETWORK_TCP_NETWORK_H_
 
 
 #include <string>
@@ -10,18 +10,24 @@
 
 #include "FatalNetworkException.h"
 #include "Protocol/Protocol.h"
-#include "NetworkBuffer.h"
+#include "Network/Buffer.h"
+#include "Network/Network.h"
 
-class Network
+namespace Network
+{
+
+class TcpNetwork : public Network
 {
 public:
-	Network(std::string server, Protocol::Protocol & protocol);
+	TcpNetwork(std::string server, Protocol::Protocol & protocol);
 
 
 	void thread();
 	void start();
     void stop();
     void connect();
+
+    void send(Buffer *,int priority = 0); // zero is send at once
 
 protected:
     boost::asio::io_service io_;
@@ -34,5 +40,5 @@ protected:
 	std::string server_;
 
 };
-
-#endif /* NETWORK_H_ */
+}
+#endif /* NETWORK_TCP_NETWORK_H_ */
