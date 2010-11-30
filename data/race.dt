@@ -1,0 +1,87 @@
+human_female
+human_male
+elf_female
+elf_male
+dwarf_female
+dwarf_male
+wraith
+cyclops
+beaver
+rat
+goblin_male_2
+goblin_female_1
+town_folk4
+town_folk5
+shop_girl3
+deer
+bear
+wolf
+white_rabbit
+brown_rabbit
+boar
+bear2
+snake1
+snake2
+snake3
+fox
+puma
+ogre_male_1
+goblin_male_1
+orc_male_1
+orc_female_1
+skeleton
+gargoyle1
+gargoyle2
+gargoyle3
+troll
+chimeran_wolf_mountain
+gnome_female((byte) 37),
+gnome_male((byte) 38),
+orchan_female((byte) 39),
+orchan_male((byte) 40),
+draegoni_female((byte) 41),
+draegoni_male((byte) 42),
+skunk_1((byte) 43),
+racoon_1((byte) 44),
+unicorn_1((byte) 45),
+chimeran_wolf_desert((byte) 46),
+chimeran_wolf_forest((byte) 47),
+bear_3((byte) 48),
+bear_4((byte) 49),
+panther((byte) 50),
+feran((byte) 51),
+leopard_1((byte) 52),
+leopard_2((byte) 53),
+chimeran_wolf_arctic((byte) 54),
+tiger_1((byte) 55),
+tiger_2((byte) 56),
+armed_female_orc((byte) 57),
+armed_male_orc((byte) 58),
+armed_skeleton((byte) 59),
+phantom_warrior((byte) 60),
+imp((byte) 61),
+brownie((byte) 62),
+leprechaun((byte) 63),
+spider_s_1((byte) 64),
+spider_s_2((byte) 65),
+spider_s_3((byte) 66),
+spider_l_1((byte) 67),
+spider_l_2((byte) 68),
+spider_l_3((byte) 69),
+wood_sprite((byte) 70),
+spider_l_4((byte) 71),
+spider_s_4((byte) 72),
+giant_1((byte) 73),
+hobgoblin((byte) 74),
+yeti((byte) 75),
+snake4((byte) 76),
+feros((byte) 77),
+dragon1((byte) 78),
+gentoo_penguin((byte) 79),
+king_penguin((byte) 80),
+chinstrap_penguin((byte) 81),
+hawk((byte) 82),
+falcon((byte) 83),
+lion((byte) 84),
+dragon2((byte) 85),
+cockatrice((byte) 86);
