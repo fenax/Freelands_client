@@ -42,14 +42,25 @@ Player::haveSigils(boost::uint32_t sigils){
 }
 
 void
-Player::setActiveSpells(std::vector<boost::uint8_t>& active_spells){
+Player::setActiveSpells(std::vector<boost::int8_t>& active_spells){
 	active_spells_ = active_spells;
 }
 
-std::vector<boost::uint8_t>&
+std::vector<boost::int8_t>&
 Player::getActiveSpells(){
 	return active_spells_;
 }
+
+Inventory&
+Player::getInventory(){
+	return inventory_;
+}
+
+std::vector<bool>&
+Player::getKnownledges(){
+	return knownledge_;
+}
+
 
 void
 Player::setStats(	boost::int16_t phy_current,
@@ -99,22 +110,24 @@ Player::setStats(	boost::int16_t phy_current,
 					boost::int16_t mana_current,
 					boost::int16_t mana_base,
 					boost::int16_t food_level,
-					boost::int16_t manufacture_exp,
-					boost::int16_t manufacture_next_level,
-					boost::int16_t harvest_exp,
-					boost::int16_t harvest_next_level,
-					boost::int16_t alchemy_exp,
-					boost::int16_t alchemy_next_level,
-					boost::int16_t overall_exp,
-					boost::int16_t overall_next_level,
-					boost::int16_t attack_exp,
-					boost::int16_t attack_next_level,
-					boost::int16_t defence_exp,
-					boost::int16_t defence_next_level,
-					boost::int16_t magic_exp,
-					boost::int16_t magic_next_level,
-					boost::int16_t potion_exp,
-					boost::int16_t potion_next_level,
+
+					boost::int32_t manufacture_exp,
+					boost::int32_t manufacture_next_level,
+					boost::int32_t harvest_exp,
+					boost::int32_t harvest_next_level,
+					boost::int32_t alchemy_exp,
+					boost::int32_t alchemy_next_level,
+					boost::int32_t overall_exp,
+					boost::int32_t overall_next_level,
+					boost::int32_t attack_exp,
+					boost::int32_t attack_next_level,
+					boost::int32_t defence_exp,
+					boost::int32_t defence_next_level,
+					boost::int32_t magic_exp,
+					boost::int32_t magic_next_level,
+					boost::int32_t potion_exp,
+					boost::int32_t potion_next_level,
+
 					boost::int16_t summon_current,
 					boost::int16_t summon_base,
 					boost::int32_t summon_exp,

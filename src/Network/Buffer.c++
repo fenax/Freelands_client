@@ -97,6 +97,8 @@ Buffer::read_c_string(){
 		sbumpc();
 		out.append(&c);
 	}
+	sbumpc();
+	return out;
 }
 
 void Buffer::write_c_string(std::string value){

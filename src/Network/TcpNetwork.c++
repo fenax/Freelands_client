@@ -4,9 +4,9 @@ namespace Network{
 using namespace boost::asio;
 TcpNetwork::TcpNetwork(std::string server, Protocol::Protocol& protocol):
 		socket_(io_),
-		server_(server),
+		protocol_(protocol),
 		stoprequested_(false),
-		protocol_(protocol)
+		server_(server)
 {
 	protocol_.registerNetworkSender(*this);
 }

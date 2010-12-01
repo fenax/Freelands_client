@@ -53,7 +53,7 @@ am_EternalLands_OBJECTS = main.$(OBJEXT) TcpNetwork.$(OBJEXT) \
 	Buffer.$(OBJEXT) FatalNetworkException.$(OBJEXT) \
 	MinimalOgre.$(OBJEXT) Protocol.$(OBJEXT) \
 	ELProtocolV0.$(OBJEXT) GameManager.$(OBJEXT) Actor.$(OBJEXT) \
-	Player.$(OBJEXT)
+	Player.$(OBJEXT) InventoryItem.$(OBJEXT) Inventory.$(OBJEXT)
 EternalLands_OBJECTS = $(am_EternalLands_OBJECTS)
 am__DEPENDENCIES_1 =
 EternalLands_DEPENDENCIES = $(am__DEPENDENCIES_1) \
@@ -180,12 +180,12 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CPPFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(BOOST_CPPFLAGS)
+AM_CPPFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(BOOST_CPPFLAGS) -Wall -pedantic
 EternalLands_SOURCES = main.c++ Network/TcpNetwork.c++ \
 	Network/Buffer.c++ Network/FatalNetworkException.c++ \
 	MinimalOgre.c++ Protocol/Protocol.c++ \
 	Protocol/ELProtocolV0.c++ Game/GameManager.c++ Game/Actor.c++ \
-	Game/Player.c++
+	Game/Player.c++ Game/InventoryItem.c++ Game/Inventory.c++
 EternalLands_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(BOOST_LDFLAGS) -lboost_thread
 all: all-am
 
@@ -273,6 +273,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ELProtocolV0.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FatalNetworkException.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GameManager.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Inventory.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/InventoryItem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MinimalOgre.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Player.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Protocol.Po@am__quote@
@@ -404,6 +406,34 @@ Player.obj: Game/Player.c++
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/Player.c++' object='Player.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Player.obj `if test -f 'Game/Player.c++'; then $(CYGPATH_W) 'Game/Player.c++'; else $(CYGPATH_W) '$(srcdir)/Game/Player.c++'; fi`
+
+InventoryItem.o: Game/InventoryItem.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT InventoryItem.o -MD -MP -MF $(DEPDIR)/InventoryItem.Tpo -c -o InventoryItem.o `test -f 'Game/InventoryItem.c++' || echo '$(srcdir)/'`Game/InventoryItem.c++
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/InventoryItem.Tpo $(DEPDIR)/InventoryItem.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/InventoryItem.c++' object='InventoryItem.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o InventoryItem.o `test -f 'Game/InventoryItem.c++' || echo '$(srcdir)/'`Game/InventoryItem.c++
+
+InventoryItem.obj: Game/InventoryItem.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT InventoryItem.obj -MD -MP -MF $(DEPDIR)/InventoryItem.Tpo -c -o InventoryItem.obj `if test -f 'Game/InventoryItem.c++'; then $(CYGPATH_W) 'Game/InventoryItem.c++'; else $(CYGPATH_W) '$(srcdir)/Game/InventoryItem.c++'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/InventoryItem.Tpo $(DEPDIR)/InventoryItem.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/InventoryItem.c++' object='InventoryItem.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o InventoryItem.obj `if test -f 'Game/InventoryItem.c++'; then $(CYGPATH_W) 'Game/InventoryItem.c++'; else $(CYGPATH_W) '$(srcdir)/Game/InventoryItem.c++'; fi`
+
+Inventory.o: Game/Inventory.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Inventory.o -MD -MP -MF $(DEPDIR)/Inventory.Tpo -c -o Inventory.o `test -f 'Game/Inventory.c++' || echo '$(srcdir)/'`Game/Inventory.c++
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Inventory.Tpo $(DEPDIR)/Inventory.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/Inventory.c++' object='Inventory.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Inventory.o `test -f 'Game/Inventory.c++' || echo '$(srcdir)/'`Game/Inventory.c++
+
+Inventory.obj: Game/Inventory.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Inventory.obj -MD -MP -MF $(DEPDIR)/Inventory.Tpo -c -o Inventory.obj `if test -f 'Game/Inventory.c++'; then $(CYGPATH_W) 'Game/Inventory.c++'; else $(CYGPATH_W) '$(srcdir)/Game/Inventory.c++'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Inventory.Tpo $(DEPDIR)/Inventory.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/Inventory.c++' object='Inventory.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Inventory.obj `if test -f 'Game/Inventory.c++'; then $(CYGPATH_W) 'Game/Inventory.c++'; else $(CYGPATH_W) '$(srcdir)/Game/Inventory.c++'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

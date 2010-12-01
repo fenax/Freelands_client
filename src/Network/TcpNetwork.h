@@ -35,7 +35,6 @@ protected:
 	boost::shared_ptr<boost::thread> thread_;
 
 	Protocol::Protocol& protocol_;
-
     volatile bool stoprequested_;
 	std::string server_;
 

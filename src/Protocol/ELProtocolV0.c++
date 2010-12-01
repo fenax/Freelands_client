@@ -300,7 +300,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 
 			packet_type_ = message.read_LE_uint8();
 			packet_size_ = message.read_LE_uint16()-1;
-			std::cout << "Got packet of type " << packet_type_ << std::endl;
+			std::cout << "Got packet of type " << packet_type_ << " and size " << packet_size_ << std::endl;
 		}else{
 			return;
 		}
@@ -311,14 +311,8 @@ ELProtocolV0::parse(Network::Buffer & message){
 		switch(packet_type_){
 			case MessageTypeV0::RAW_TEXT :
 			{
-				int 		first 	= message.read_LE_uint8();
 				std::string text 	= message.read_c_string();
-				if(first > 127){
-					text.insert(first,0);
-	//				out = new RawTextMessage(text);
-				}else{
-	//				out = new RawTextMessage(text,first);
-				}
+				getGameManager().giveRawMessage(text);
 				break;
 			}
 			case MessageTypeV0::ADD_NEW_ACTOR :
@@ -395,19 +389,20 @@ ELProtocolV0::parse(Network::Buffer & message){
 			case MessageTypeV0::YOU_ARE :
 			{
 				boost::int16_t player_actor = message.read_LE_int16();
-				//TODO write actual code
+				getGameManager().givePlayerId(player_actor);
 				break;
 			}
 			case MessageTypeV0::SYNC_CLOCK ://Actually this message is nothing
 			{
 				boost::int32_t clock = message.read_LE_int32(); //always 0
+				std::cout << "clock is " << (int)clock << std::endl;
 				//TODO find a use
 				break;
 			}
 			case MessageTypeV0::NEW_MINUTE :
 			{
 				boost::int16_t game_time = message.read_LE_int16();
-				//TODO write actual code
+				getGameManager().giveTime(game_time/60, game_time%60);
 			}
 			case MessageTypeV0::REMOVE_ACTOR :
 			{
@@ -420,7 +415,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 			case MessageTypeV0::CHANGE_MAP :
 			{
 				std::string map_name = message.read_c_string();
-				//TODO write actual code
+				getGameManager().giveNewMap(map_name);
 				break;
 			}
 			case MessageTypeV0::COMBAT_MODE :
@@ -611,22 +606,22 @@ ELProtocolV0::parse(Network::Buffer & message){
 				msg.putInt(hisContent.potExp);
 				msg.putInt(hisContent.potNextLvl);*/
 
-				boost::int16_t manufacture_exp        = message.read_LE_int16();
-				boost::int16_t manufacture_next_level = message.read_LE_int16();
-				boost::int16_t harvest_exp            = message.read_LE_int16();
-				boost::int16_t harvest_next_level     = message.read_LE_int16();
-				boost::int16_t alchemy_exp            = message.read_LE_int16();
-				boost::int16_t alchemy_next_level     = message.read_LE_int16();
-				boost::int16_t overall_exp            = message.read_LE_int16();
-				boost::int16_t overall_next_level     = message.read_LE_int16();
-				boost::int16_t attack_exp             = message.read_LE_int16();
-				boost::int16_t attack_next_level      = message.read_LE_int16();
-				boost::int16_t defence_exp            = message.read_LE_int16();
-				boost::int16_t defence_next_level     = message.read_LE_int16();
-				boost::int16_t magic_exp              = message.read_LE_int16();
-				boost::int16_t magic_next_level       = message.read_LE_int16();
-				boost::int16_t potion_exp             = message.read_LE_int16();
-				boost::int16_t potion_next_level      = message.read_LE_int16();
+				boost::int32_t manufacture_exp        = message.read_LE_int32();
+				boost::int32_t manufacture_next_level = message.read_LE_int32();
+				boost::int32_t harvest_exp            = message.read_LE_int32();
+				boost::int32_t harvest_next_level     = message.read_LE_int32();
+				boost::int32_t alchemy_exp            = message.read_LE_int32();
+				boost::int32_t alchemy_next_level     = message.read_LE_int32();
+				boost::int32_t overall_exp            = message.read_LE_int32();
+				boost::int32_t overall_next_level     = message.read_LE_int32();
+				boost::int32_t attack_exp             = message.read_LE_int32();
+				boost::int32_t attack_next_level      = message.read_LE_int32();
+				boost::int32_t defence_exp            = message.read_LE_int32();
+				boost::int32_t defence_next_level     = message.read_LE_int32();
+				boost::int32_t magic_exp              = message.read_LE_int32();
+				boost::int32_t magic_next_level       = message.read_LE_int32();
+				boost::int32_t potion_exp             = message.read_LE_int32();
+				boost::int32_t potion_next_level      = message.read_LE_int32();
 
 				/*msg.putShort((short) 0);//unknow
 				msg.putShort((short) 0);//researching
@@ -663,6 +658,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				msg.putShort((short) 0);//charisme lvl
 				msg.putShort((short) 0);//charisme rang*/
 				boost::int16_t charisma=0,religion=0,religion_level=0,race=0,charisma_next=0,charisma_level=0,charisma_rank=0;
+
 				if(packet_size_ > 199){ // probably shouldn't have an if here
 					charisma       = message.read_LE_int16();
 					religion       = message.read_LE_int16();
@@ -673,8 +669,46 @@ ELProtocolV0::parse(Network::Buffer & message){
 					charisma_rank  = message.read_LE_int16();
 				}
 
-
-				//TODO write actual code
+				getGameManager().getPlayer().setStats(
+						phy_current,phy_base,
+						coord_current,coord_base,
+						reac_current,reac_base,
+						will_current,will_base,
+						inst_current,inst_base,
+						vit_current,vit_base,
+						human_nexus_current,human_nexus_base,
+						animal_nexus_current, animal_nexus_base,
+						vegetal_nexus_current,vegetal_nexus_base,
+						inorganic_nexus_current, inorganic_nexus_base,
+						artificial_nexus_current, artificial_nexus_base,
+						magic_nexus_current, magic_nexus_base,
+						manufacture_current, manufacture_base,
+						harvest_current, harvest_base,
+						alchemy_current, alchemy_base,
+						overall_current, overall_base,
+						attack_current, attack_base,
+						defence_current, defence_base,
+						magic_current, magic_base,
+						potion_current, potion_base,
+						carry_current, carry_base,
+						health_current, health_base,
+						mana_current, mana_base,
+						food_level,
+						manufacture_exp, manufacture_next_level,
+						harvest_exp, harvest_next_level,
+						alchemy_exp,alchemy_next_level,
+						overall_exp, overall_next_level,
+						attack_exp, attack_next_level,
+						defence_exp, defence_next_level,
+						magic_exp, magic_next_level,
+						potion_exp, potion_next_level,
+						summon_current, summon_base, summon_exp, summon_next_level,
+						crafting_current, crafting_base,
+						exp, next_level,
+						charisma,
+						religion, religion_level,
+						race,
+						charisma_next, charisma_level, charisma_rank);
 				break;
 			}
 			case MessageTypeV0::HERE_YOUR_INVENTORY :
@@ -693,13 +727,16 @@ ELProtocolV0::parse(Network::Buffer & message){
 				}
 				*/
 				int quantity = message.read_LE_uint8();
+
+				Game::Inventory& inventory = getGameManager().getPlayer().getInventory();
 				for(int i = 0; i < quantity; i++){
 					boost::int16_t item_id       = message.read_LE_int16();
 					boost::int32_t item_quantity = message.read_LE_int32();
 					boost::int8_t  item_position = message.read_LE_int8();
 					boost::int8_t  item_flags    = message.read_LE_int8();
+					inventory[item_position].setAll(item_id,item_quantity,item_flags);
 				}
-				//TODO write actual code
+				inventory.print();
 				break;
 			}
 			case MessageTypeV0::INVENTORY_ITEM_TEXT :
@@ -858,7 +895,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 			case MessageTypeV0::GET_YOUR_SIGILS :
 			{
 				boost::int32_t sigil = message.read_LE_int32();
-				//TODO write actual code
+				getGameManager().giveSigils(sigil);
 				break;
 			}
 			case MessageTypeV0::SPELL_ITEM_TEXT :
@@ -874,6 +911,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 					boost::int8_t spell = message.read_LE_int8();
 					active_spells.push_back(spell);
 				}
+				getGameManager().giveActiveSpells(active_spells);
 
 			}
 			case MessageTypeV0::REMOVE_ACTIVE_SPELL :
@@ -949,6 +987,9 @@ ELProtocolV0::parse(Network::Buffer & message){
 					msg.put((byte) 0);
 					// scalability in 2bytes
 					msg.putShort((short) 0x4000);*/
+				boost::int16_t id = msg.putShort(which.id);
+
+
 				bool invisible = false;
 				boost::int16_t x_pos = message.read_LE_int16();
 				boost::int16_t y_pos = message.read_LE_int16();
@@ -973,6 +1014,9 @@ ELProtocolV0::parse(Network::Buffer & message){
 				boost::int8_t weapon = message.read_LE_int8();
 				boost::int8_t cape = message.read_LE_int8();
 				boost::int8_t helmet = message.read_LE_int8();
+
+				boost::int8_t frame = message.read_LE_int8();
+
 				boost::int16_t health_base = message.read_LE_int16();
 				boost::int16_t health_cur = message.read_LE_int16();
 				boost::int8_t type = message.read_LE_int8();
@@ -1011,10 +1055,14 @@ ELProtocolV0::parse(Network::Buffer & message){
 					//send size of list and a list of bit with id of knowledge
 					// (see knowledge.lst in client) is position in message,
 					// the bit represent if knowledge is learn(1) or not (0)
+				std::vector<bool>& knownledges = getGameManager().getPlayer().getKnownledges();
 				while(message.in_avail()){
 					boost::int8_t  knownledge_flags  = message.read_LE_int8();
+					for(int j = 0 ; j < 8 ; j++){
+						knownledges.push_back(knownledge_flags&1);
+						knownledge_flags >>= 1;
+					}
 				}
-				//TODO write actual code
 				break;
 			}
 			case MessageTypeV0::GET_NEW_KNOWLEDGE :
@@ -1058,7 +1106,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				while(message.in_avail()){
 					boost::int32_t  channel  = message.read_LE_int32();
 				}
-
+				break;
 			}
 			case MessageTypeV0::MAP_FLAGS :
 				//not implemented on server

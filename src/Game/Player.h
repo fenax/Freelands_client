@@ -12,6 +12,7 @@
 
 #include <boost/cstdint.hpp>
 
+#include "Game/Inventory.h"
 #include "Actor.h"
 
 namespace Game
@@ -21,7 +22,9 @@ class Player: public Game::Actor
 {
 private:
 	boost::uint32_t sigils_;
-	std::vector<boost::uint8_t> active_spells_;
+	std::vector<boost::int8_t> active_spells_;
+	std::vector<bool> knownledge_;
+
 
 
 	boost::int16_t phy_current_;
@@ -83,22 +86,22 @@ private:
 	boost::int16_t food_level_;
 
 
-	boost::int16_t manufacture_exp_;
-	boost::int16_t manufacture_next_level_;
-	boost::int16_t harvest_exp_;
-	boost::int16_t harvest_next_level_;
-	boost::int16_t alchemy_exp_;
-	boost::int16_t alchemy_next_level_;
-	boost::int16_t overall_exp_;
-	boost::int16_t overall_next_level_;
-	boost::int16_t attack_exp_;
-	boost::int16_t attack_next_level_;
-	boost::int16_t defence_exp_;
-	boost::int16_t defence_next_level_;
-	boost::int16_t magic_exp_;
-	boost::int16_t magic_next_level_;
-	boost::int16_t potion_exp_;
-	boost::int16_t potion_next_level_;
+	boost::int32_t manufacture_exp_;
+	boost::int32_t manufacture_next_level_;
+	boost::int32_t harvest_exp_;
+	boost::int32_t harvest_next_level_;
+	boost::int32_t alchemy_exp_;
+	boost::int32_t alchemy_next_level_;
+	boost::int32_t overall_exp_;
+	boost::int32_t overall_next_level_;
+	boost::int32_t attack_exp_;
+	boost::int32_t attack_next_level_;
+	boost::int32_t defence_exp_;
+	boost::int32_t defence_next_level_;
+	boost::int32_t magic_exp_;
+	boost::int32_t magic_next_level_;
+	boost::int32_t potion_exp_;
+	boost::int32_t potion_next_level_;
 
 	boost::int16_t summon_current_;
 	boost::int16_t summon_base_;
@@ -119,6 +122,8 @@ private:
 	boost::int16_t charisma_level_;
 	boost::int16_t charisma_rank_;
 
+	Inventory inventory_;
+
 public:
 	Player();
 	virtual ~Player();
@@ -126,9 +131,12 @@ public:
 	void addSigils(boost::uint32_t sigils);
 	void removeSigils(boost::uint32_t sigils);
 	bool haveSigils(boost::uint32_t sigils);
-	void setActiveSpells(std::vector<boost::uint8_t>& active_spells);
-	std::vector<boost::uint8_t>& getActiveSpells();
+	void setActiveSpells(std::vector<boost::int8_t>& active_spells);
+	std::vector<boost::int8_t>& getActiveSpells();
+	Inventory& getInventory();
+	std::vector<bool>& getKnownledges();
 
+	//TODO make this less huge and fugly
 	void setStats(	boost::int16_t phy_current,
 					boost::int16_t phy_base,
 					boost::int16_t coord_current,
@@ -176,22 +184,24 @@ public:
 					boost::int16_t mana_current,
 					boost::int16_t mana_base,
 					boost::int16_t food_level,
-					boost::int16_t manufacture_exp,
-					boost::int16_t manufacture_next_level,
-					boost::int16_t harvest_exp,
-					boost::int16_t harvest_next_level,
-					boost::int16_t alchemy_exp,
-					boost::int16_t alchemy_next_level,
-					boost::int16_t overall_exp,
-					boost::int16_t overall_next_level,
-					boost::int16_t attack_exp,
-					boost::int16_t attack_next_level,
-					boost::int16_t defence_exp,
-					boost::int16_t defence_next_level,
-					boost::int16_t magic_exp,
-					boost::int16_t magic_next_level,
-					boost::int16_t potion_exp,
-					boost::int16_t potion_next_level,
+
+					boost::int32_t manufacture_exp,
+					boost::int32_t manufacture_next_level,
+					boost::int32_t harvest_exp,
+					boost::int32_t harvest_next_level,
+					boost::int32_t alchemy_exp,
+					boost::int32_t alchemy_next_level,
+					boost::int32_t overall_exp,
+					boost::int32_t overall_next_level,
+					boost::int32_t attack_exp,
+					boost::int32_t attack_next_level,
+					boost::int32_t defence_exp,
+					boost::int32_t defence_next_level,
+					boost::int32_t magic_exp,
+					boost::int32_t magic_next_level,
+					boost::int32_t potion_exp,
+					boost::int32_t potion_next_level,
+
 					boost::int16_t summon_current,
 					boost::int16_t summon_base,
 					boost::int32_t summon_exp,

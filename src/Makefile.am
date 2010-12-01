@@ -1,5 +1,5 @@
 
-AM_CPPFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(BOOST_CPPFLAGS)
+AM_CPPFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(BOOST_CPPFLAGS) -Wall -pedantic
 
 bin_PROGRAMS=EternalLands
 
@@ -17,6 +17,8 @@ EternalLands_SOURCES += Protocol/ELProtocolV0.c++
 EternalLands_SOURCES += Game/GameManager.c++ 
 EternalLands_SOURCES += Game/Actor.c++ 
 EternalLands_SOURCES += Game/Player.c++ 
+EternalLands_SOURCES += Game/InventoryItem.c++ 
+EternalLands_SOURCES += Game/Inventory.c++ 
 
 
 EternalLands_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(BOOST_LDFLAGS) -lboost_thread

@@ -48,7 +48,7 @@ void
 GameManager::giveTime(boost::int8_t hour, boost::int8_t minute){
 	hour_ = hour;
 	minute_ = minute;
-	std::cout << "time changed to : " << hour << ":" << minute << std::endl;
+	std::cout << "time changed to : " << (int)hour << ":" << (int)minute << std::endl;
 }
 
 void
@@ -58,9 +58,23 @@ GameManager::giveSigils(boost::int32_t sigils){
 }
 
 void
-GameManager::giveActiveSpells(std::vector<boost::uint8_t> active_spells){
+GameManager::giveActiveSpells(std::vector<boost::int8_t> active_spells){
 	player_.setActiveSpells(active_spells);
+	std::cout << "active spells set \n";
 }
+
+Player&
+GameManager::getPlayer(){
+	std::cout << "player requested \n";
+	return player_;
+}
+
+void
+GameManager::giveNewMap(std::string map){
+	std::cout << "going to new map : " << map << std::endl;
+	//TODO Actually do something.
+}
+
 
 }
 

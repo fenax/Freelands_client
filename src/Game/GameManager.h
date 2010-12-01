@@ -29,6 +29,7 @@ private:
 	boost::uint8_t hour_;
 	boost::uint8_t minute_;
 
+
 public:
 	GameManager();
 	virtual ~GameManager();
@@ -38,8 +39,10 @@ public:
 	void givePlayerId(boost::int64_t player_id);
     void giveTime(boost::int8_t hour, boost::int8_t minute);
     void giveSigils(boost::int32_t sigils);
-    void giveActiveSpells(std::vector<boost::uint8_t> active_spells);
+    void giveActiveSpells(std::vector<boost::int8_t> active_spells);
     void giveRawMessage(std::string message);
+    void giveNewMap(std::string map);
+    Player& getPlayer();
 
 
 

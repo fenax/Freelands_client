@@ -34,9 +34,13 @@ extern "C" {
 
         	network.connect();
         	network.start();
-        	protocol.sendCreateCharacter("login","password", 0,0,0,0,0,0,0);
+        	//protocol.sendCreateCharacter("login","password", 0,0,0,0,0,0,0);
 
         	protocol.sendLogin("login","password");
+
+
+
+ //       	protocol.sendOpeninigScreen();
 
 //        	Network::Buffer buff;
 //        	cout << "size = " << buff.size() << endl;
