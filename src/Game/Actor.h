@@ -17,18 +17,9 @@ namespace Game
 
 class Actor
 {
-public:
-	Actor();
-	Actor(	boost::int16_t id, bool visible_,
-			boost::int16_t position_x,	boost::int16_t position_y,	boost::int16_t position_z,
-			boost::int16_t rotation_z,
-			boost::uint8_t actor_race, boost::uint8_t actor_frame,
-			boost::int16_t actor_life, boost::int16_t actor_type,
-			std::string actor_name, boost::int16_t actor_scalability);
-	virtual ~Actor();
 
-private:
-	Ogre::Entity* entity;
+protected:
+	Ogre::Entity* entity_;
 
 	boost::int16_t id_;
 
@@ -48,6 +39,26 @@ private:
 	boost::int16_t actor_scalability_;
 
 	bool visible_;
+public:
+	Actor();
+	Actor(	boost::int16_t id, bool visible,
+			boost::int16_t position_x,	boost::int16_t position_y,	boost::int16_t position_z,
+			boost::int16_t rotation_z,
+			boost::uint8_t actor_race, boost::uint8_t actor_frame,
+			boost::int16_t actor_life, boost::int16_t actor_type,
+			std::string& actor_name, boost::int16_t actor_scalability);
+	virtual ~Actor();
+
+	void setAll(boost::int16_t id, bool visible,
+			boost::int16_t position_x,	boost::int16_t position_y,	boost::int16_t position_z,
+			boost::int16_t rotation_z,
+			boost::uint8_t actor_race, boost::uint8_t actor_frame,
+			boost::int16_t actor_life, boost::int16_t actor_type,
+			std::string& actor_name, boost::int16_t actor_scalability);
+
+	boost::int16_t getId();
+	std::string& getName();
+
 };
 
 }

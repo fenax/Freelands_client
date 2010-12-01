@@ -13,12 +13,12 @@
 #include <boost/cstdint.hpp>
 
 #include "Game/Inventory.h"
-#include "Actor.h"
+#include "Game/EnhancedActor.h"
 
 namespace Game
 {
 
-class Player: public Game::Actor
+class Player: public Game::EnhancedActor
 {
 private:
 	boost::uint32_t sigils_;

@@ -16,6 +16,7 @@ EternalLands_SOURCES += Protocol/ELProtocolV0.c++
 
 EternalLands_SOURCES += Game/GameManager.c++ 
 EternalLands_SOURCES += Game/Actor.c++ 
+EternalLands_SOURCES += Game/EnhancedActor.c++ 
 EternalLands_SOURCES += Game/Player.c++ 
 EternalLands_SOURCES += Game/InventoryItem.c++ 
 EternalLands_SOURCES += Game/Inventory.c++ 

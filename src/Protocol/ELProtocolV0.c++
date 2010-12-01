@@ -11,6 +11,8 @@
 #include "MessageTypeV0.h"
 #include "MessageTypeToServerV0.h"
 
+#include "Game/Actor.h"
+#include "Game/EnhancedActor.h"
 #include "Game/Messages/RawTextMessage.h"
 
 #include "Game/Messages/Login.h"
@@ -369,7 +371,13 @@ ELProtocolV0::parse(Network::Buffer & message){
 
 				std::string actor_name = message.read_c_string();
 				boost::int16_t actor_scalability = message.read_LE_int16();
-				//TODO write actual code
+
+				Game::Actor actor(actor_id, !invisible,
+									x_pos,	y_pos,	z_pos,
+									z_rotation, actor_race,  actor_frame,
+									actor_life, actor_type,
+									actor_name, actor_scalability);
+				getGameManager().giveNewActor(actor);
 				break;
 			}
 			case MessageTypeV0::ADD_ACTOR_COMMAND :
@@ -987,7 +995,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 					msg.put((byte) 0);
 					// scalability in 2bytes
 					msg.putShort((short) 0x4000);*/
-				boost::int16_t id = msg.putShort(which.id);
+				boost::int16_t id = message.read_LE_int16();
 
 
 				bool invisible = false;
@@ -1024,6 +1032,18 @@ ELProtocolV0::parse(Network::Buffer & message){
 				std::string name = message.read_c_string();
 
 				boost::int16_t scalability = message.read_LE_int16();
+
+				Game::EnhancedActor actor(id, !invisible,
+									x_pos,	y_pos,	z_pos,
+									z_rotation, race,  frame,
+									type,
+									name, scalability,
+									skin, hair,
+									shirt, pants, boots,
+									head, shield, weapon,
+									cape, helmet,
+									health_base, health_cur);
+				getGameManager().giveNewActor(actor);
 
 				//TODO write actual code
 				break;
@@ -1106,6 +1126,8 @@ ELProtocolV0::parse(Network::Buffer & message){
 				while(message.in_avail()){
 					boost::int32_t  channel  = message.read_LE_int32();
 				}
+				getGameManager().giveError("not implemented","GET_ACTIVE_CHANNELS is not implemented");
+				//TODO write actual code
 				break;
 			}
 			case MessageTypeV0::MAP_FLAGS :

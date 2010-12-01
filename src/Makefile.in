@@ -53,7 +53,8 @@ am_EternalLands_OBJECTS = main.$(OBJEXT) TcpNetwork.$(OBJEXT) \
 	Buffer.$(OBJEXT) FatalNetworkException.$(OBJEXT) \
 	MinimalOgre.$(OBJEXT) Protocol.$(OBJEXT) \
 	ELProtocolV0.$(OBJEXT) GameManager.$(OBJEXT) Actor.$(OBJEXT) \
-	Player.$(OBJEXT) InventoryItem.$(OBJEXT) Inventory.$(OBJEXT)
+	EnhancedActor.$(OBJEXT) Player.$(OBJEXT) \
+	InventoryItem.$(OBJEXT) Inventory.$(OBJEXT)
 EternalLands_OBJECTS = $(am_EternalLands_OBJECTS)
 am__DEPENDENCIES_1 =
 EternalLands_DEPENDENCIES = $(am__DEPENDENCIES_1) \
@@ -185,7 +186,8 @@ EternalLands_SOURCES = main.c++ Network/TcpNetwork.c++ \
 	Network/Buffer.c++ Network/FatalNetworkException.c++ \
 	MinimalOgre.c++ Protocol/Protocol.c++ \
 	Protocol/ELProtocolV0.c++ Game/GameManager.c++ Game/Actor.c++ \
-	Game/Player.c++ Game/InventoryItem.c++ Game/Inventory.c++
+	Game/EnhancedActor.c++ Game/Player.c++ Game/InventoryItem.c++ \
+	Game/Inventory.c++
 EternalLands_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(BOOST_LDFLAGS) -lboost_thread
 all: all-am
 
@@ -271,6 +273,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Actor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Buffer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ELProtocolV0.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/EnhancedActor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FatalNetworkException.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GameManager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Inventory.Po@am__quote@
@@ -392,6 +395,20 @@ Actor.obj: Game/Actor.c++
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/Actor.c++' object='Actor.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Actor.obj `if test -f 'Game/Actor.c++'; then $(CYGPATH_W) 'Game/Actor.c++'; else $(CYGPATH_W) '$(srcdir)/Game/Actor.c++'; fi`
+
+EnhancedActor.o: Game/EnhancedActor.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT EnhancedActor.o -MD -MP -MF $(DEPDIR)/EnhancedActor.Tpo -c -o EnhancedActor.o `test -f 'Game/EnhancedActor.c++' || echo '$(srcdir)/'`Game/EnhancedActor.c++
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/EnhancedActor.Tpo $(DEPDIR)/EnhancedActor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/EnhancedActor.c++' object='EnhancedActor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o EnhancedActor.o `test -f 'Game/EnhancedActor.c++' || echo '$(srcdir)/'`Game/EnhancedActor.c++
+
+EnhancedActor.obj: Game/EnhancedActor.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT EnhancedActor.obj -MD -MP -MF $(DEPDIR)/EnhancedActor.Tpo -c -o EnhancedActor.obj `if test -f 'Game/EnhancedActor.c++'; then $(CYGPATH_W) 'Game/EnhancedActor.c++'; else $(CYGPATH_W) '$(srcdir)/Game/EnhancedActor.c++'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/EnhancedActor.Tpo $(DEPDIR)/EnhancedActor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/EnhancedActor.c++' object='EnhancedActor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o EnhancedActor.obj `if test -f 'Game/EnhancedActor.c++'; then $(CYGPATH_W) 'Game/EnhancedActor.c++'; else $(CYGPATH_W) '$(srcdir)/Game/EnhancedActor.c++'; fi`
 
 Player.o: Game/Player.c++
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Player.o -MD -MP -MF $(DEPDIR)/Player.Tpo -c -o Player.o `test -f 'Game/Player.c++' || echo '$(srcdir)/'`Game/Player.c++

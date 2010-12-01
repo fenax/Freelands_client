@@ -75,6 +75,18 @@ GameManager::giveNewMap(std::string map){
 	//TODO Actually do something.
 }
 
+void
+GameManager::giveNewActor(Actor& actor){
+	if(actor.getId() == player_id_){
+		player_.setAll(dynamic_cast<EnhancedActor&>(actor));
+		std::cout << "Added player actor : " << actor.getName() << std::endl;
+	}else{
+		actors_.push_back(actor);
+		std::cout << "Added non player actor : " << actor.getName() << std::endl;
+	}
+}
+
+
 
 }
 

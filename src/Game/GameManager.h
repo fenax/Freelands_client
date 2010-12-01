@@ -42,6 +42,7 @@ public:
     void giveActiveSpells(std::vector<boost::int8_t> active_spells);
     void giveRawMessage(std::string message);
     void giveNewMap(std::string map);
+    void giveNewActor(Actor& actor);
     Player& getPlayer();
 
 
