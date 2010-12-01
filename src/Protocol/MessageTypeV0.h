@@ -15,8 +15,10 @@ namespace Protocol
 // made a copy from the server without thinking, should probably attribute
 // copyright to Michael Fraipont, I'll see to that someday I get motivated to
 // make GPL headers in files
-enum MessageTypeV0
+class MessageTypeV0
 {
+public:
+	static const int
     RAW_TEXT = 0,
     ADD_NEW_ACTOR = 1,
     ADD_ACTOR_COMMAND = 2,
@@ -134,7 +136,7 @@ enum MessageTypeV0
     LOG_IN_NOT_OK = 251,
     CREATE_CHAR_OK = 252,
     CREATE_CHAR_NOT_OK = 253,
-    BYE = 255
+    BYE = 255;
 };
 
 }

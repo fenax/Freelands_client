@@ -52,7 +52,8 @@ PROGRAMS = $(bin_PROGRAMS)
 am_EternalLands_OBJECTS = main.$(OBJEXT) TcpNetwork.$(OBJEXT) \
 	Buffer.$(OBJEXT) FatalNetworkException.$(OBJEXT) \
 	MinimalOgre.$(OBJEXT) Protocol.$(OBJEXT) \
-	ELProtocolV0.$(OBJEXT) GameManager.$(OBJEXT)
+	ELProtocolV0.$(OBJEXT) GameManager.$(OBJEXT) Actor.$(OBJEXT) \
+	Player.$(OBJEXT)
 EternalLands_OBJECTS = $(am_EternalLands_OBJECTS)
 am__DEPENDENCIES_1 =
 EternalLands_DEPENDENCIES = $(am__DEPENDENCIES_1) \
@@ -183,7 +184,8 @@ AM_CPPFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(BOOST_CPPFLAGS)
 EternalLands_SOURCES = main.c++ Network/TcpNetwork.c++ \
 	Network/Buffer.c++ Network/FatalNetworkException.c++ \
 	MinimalOgre.c++ Protocol/Protocol.c++ \
-	Protocol/ELProtocolV0.c++ Game/GameManager.c++
+	Protocol/ELProtocolV0.c++ Game/GameManager.c++ Game/Actor.c++ \
+	Game/Player.c++
 EternalLands_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(BOOST_LDFLAGS) -lboost_thread
 all: all-am
 
@@ -266,11 +268,13 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Actor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Buffer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ELProtocolV0.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FatalNetworkException.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GameManager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MinimalOgre.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Player.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Protocol.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TcpNetwork.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
@@ -372,6 +376,34 @@ GameManager.obj: Game/GameManager.c++
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/GameManager.c++' object='GameManager.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o GameManager.obj `if test -f 'Game/GameManager.c++'; then $(CYGPATH_W) 'Game/GameManager.c++'; else $(CYGPATH_W) '$(srcdir)/Game/GameManager.c++'; fi`
+
+Actor.o: Game/Actor.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Actor.o -MD -MP -MF $(DEPDIR)/Actor.Tpo -c -o Actor.o `test -f 'Game/Actor.c++' || echo '$(srcdir)/'`Game/Actor.c++
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Actor.Tpo $(DEPDIR)/Actor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/Actor.c++' object='Actor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Actor.o `test -f 'Game/Actor.c++' || echo '$(srcdir)/'`Game/Actor.c++
+
+Actor.obj: Game/Actor.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Actor.obj -MD -MP -MF $(DEPDIR)/Actor.Tpo -c -o Actor.obj `if test -f 'Game/Actor.c++'; then $(CYGPATH_W) 'Game/Actor.c++'; else $(CYGPATH_W) '$(srcdir)/Game/Actor.c++'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Actor.Tpo $(DEPDIR)/Actor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/Actor.c++' object='Actor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Actor.obj `if test -f 'Game/Actor.c++'; then $(CYGPATH_W) 'Game/Actor.c++'; else $(CYGPATH_W) '$(srcdir)/Game/Actor.c++'; fi`
+
+Player.o: Game/Player.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Player.o -MD -MP -MF $(DEPDIR)/Player.Tpo -c -o Player.o `test -f 'Game/Player.c++' || echo '$(srcdir)/'`Game/Player.c++
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Player.Tpo $(DEPDIR)/Player.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/Player.c++' object='Player.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Player.o `test -f 'Game/Player.c++' || echo '$(srcdir)/'`Game/Player.c++
+
+Player.obj: Game/Player.c++
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Player.obj -MD -MP -MF $(DEPDIR)/Player.Tpo -c -o Player.obj `if test -f 'Game/Player.c++'; then $(CYGPATH_W) 'Game/Player.c++'; else $(CYGPATH_W) '$(srcdir)/Game/Player.c++'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/Player.Tpo $(DEPDIR)/Player.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Game/Player.c++' object='Player.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Player.obj `if test -f 'Game/Player.c++'; then $(CYGPATH_W) 'Game/Player.c++'; else $(CYGPATH_W) '$(srcdir)/Game/Player.c++'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

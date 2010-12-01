@@ -1,7 +1,7 @@
 #include "TcpNetwork.h"
 
 namespace Network{
-
+using namespace boost::asio;
 TcpNetwork::TcpNetwork(std::string server, Protocol::Protocol& protocol):
 		socket_(io_),
 		server_(server),
@@ -51,12 +51,13 @@ TcpNetwork::thread(){
 		//TODO check errors
 		boost::system::error_code error;
 
-		int to_read = protocol_.getAmountToRead();
+		int to_read = protocol_.getAmountToRead() - buff->in_avail();
 
-		int read =
-		boost::asio::read(socket_,
-				*(boost::asio::basic_streambuf< std::allocator<char> > *)buff,
-				boost::asio::transfer_at_least(to_read));//fugly downcasting
+		if(to_read > 0){
+			int red = read(socket_,
+					*(basic_streambuf< std::allocator<char> > *)buff,
+					transfer_at_least(to_read));//fugly downcasting
+		}
 
 		protocol_.parse(*buff);
 

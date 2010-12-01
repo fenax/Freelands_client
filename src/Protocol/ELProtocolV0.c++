@@ -43,10 +43,236 @@ ELProtocolV0::sendLogin(std::string username, std::string password){
 }
 
 void
+ELProtocolV0::sendCreateCharacter(std::string username, std::string password,
+							  char skin, char hair, char shirt, char pants,
+							  char boots, char race, char head){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_c_string(username + " " + password);
+	/*
+	 *      Skin skin = Skin.get(msg.get(position));
+            Hairs hair = Hairs.get(msg.get(position + 1));
+            Shirts shirt = Shirts.get(msg.get(position + 2));
+            Pants pants = Pants.get(msg.get(position + 3));
+            Boots boots = Boots.get(msg.get(position + 4));
+            ActorType race = ActorType.get(msg.get(position + 5));
+            Head head = Head.get(msg.get(position + 6));
+	 * */
+	networkbuffer.write_LE_int8(skin);
+	networkbuffer.write_LE_int8(hair);
+	networkbuffer.write_LE_int8(shirt);
+	networkbuffer.write_LE_int8(pants);
+	networkbuffer.write_LE_int8(boots);
+	networkbuffer.write_LE_int8(race);
+	networkbuffer.write_LE_int8(head);
+	send(networkbuffer, MessageTypeToServerV0::CTS_CREATE_CHAR);
+}
+
+void
+ELProtocolV0::sendMoveTo(boost::int16_t x, boost::int16_t y){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int8(x);
+	networkbuffer.write_LE_int8(y);
+	send(networkbuffer, MessageTypeToServerV0::CTS_MOVE_TO);
+}
+
+void
+ELProtocolV0::sendRawTextMessage(std::string message){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_c_string(message);
+	send(networkbuffer, MessageTypeToServerV0::CTS_RAW_TEXT);
+}
+
+void
+ELProtocolV0:: sendPrivateMessage(std::string target, std::string message){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_c_string(target + " " + message);
+	send(networkbuffer, MessageTypeToServerV0::CTS_SEND_PM);
+}
+
+//public static void sendVersionMessage(NetworkClient from, ByteBuffer msg) {
+//    assert (msg.get(0) == ToServerProtocol.SEND_VERSION.value);
+//    //TODO check version of client
+//}
+
+void
+ELProtocolV0::sendOpeninigScreen(){
+	Network::Buffer networkbuffer;
+	send(networkbuffer, MessageTypeToServerV0::CTS_SEND_OPENING_SCREEN);
+}
+
+void
+ELProtocolV0::sendAttack(boost::int16_t target){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int16(target);
+	send(networkbuffer, MessageTypeToServerV0::CTS_ATTACK_SOMEONE);
+}
+
+void
+ELProtocolV0::sendLookAtInventoryItem(boost::int8_t pos){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int8(pos);
+	send(networkbuffer, MessageTypeToServerV0::CTS_LOOK_AT_INVENTORY_ITEM);
+}
+
+void
+ELProtocolV0::sendUseInventoryItem(boost::int8_t pos){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int8(pos);
+	send(networkbuffer, MessageTypeToServerV0::CTS_USE_INVENTORY_ITEM);
+}
+
+void
+ELProtocolV0::sendDropItem(boost::int8_t pos, boost::int32_t quantity){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int8(pos);
+	networkbuffer.write_LE_int32(quantity);
+	send(networkbuffer, MessageTypeToServerV0::CTS_DROP_ITEM);
+}
+
+void
+ELProtocolV0::sendTouchPlayer(boost::int16_t target){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int16(target);
+	send(networkbuffer, MessageTypeToServerV0::CTS_TOUCH_PLAYER);
+}
+
+void
+ELProtocolV0::sendRespondToNpc(boost::int16_t npc, boost::int16_t response){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int16(npc);
+	networkbuffer.write_LE_int16(response);
+	send(networkbuffer, MessageTypeToServerV0::CTS_RESPOND_TO_NPC);
+}
+
+void
+ELProtocolV0::sendInspectBag(boost::int8_t bag){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int8(bag);
+	send(networkbuffer, MessageTypeToServerV0::CTS_INSPECT_BAG);
+}
+
+void
+ELProtocolV0::sendPickUpItem(boost::int8_t pos, boost::int32_t quantity){//from bag
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int8(pos);
+	networkbuffer.write_LE_int32(quantity);
+	send(networkbuffer, MessageTypeToServerV0::CTS_PICK_UP_ITEM);
+}
+
+void
+ELProtocolV0::sendMoveInventoryItem(boost::int8_t pos,boost::int8_t newpos){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int8(pos);
+	networkbuffer.write_LE_int8(newpos);
+	send(networkbuffer, MessageTypeToServerV0::CTS_MOVE_INVENTORY_ITEM);
+}
+
+void
+ELProtocolV0::sendLookAtMapObject(boost::int32_t object_id){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int32(object_id);
+	send(networkbuffer, MessageTypeToServerV0::CTS_LOOK_AT_MAP_OBJECT);
+}
+
+void
+ELProtocolV0::sendUseMapObject(boost::int32_t object_id, boost::int32_t inventory_item){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int32(object_id);
+	networkbuffer.write_LE_int32(inventory_item);
+	send(networkbuffer, MessageTypeToServerV0::CTS_USE_MAP_OBJECT);
+}
+//public static void harvestMessage(Player from, ByteBuffer msg) {
+//    assert (msg.get(0) == ToServerProtocol.HARVEST.value);//21
+//    short objectmapid = msg.getShort(3);
+//    HarvestInitiator.handleHarvestingRequest(from, objectmapid);
+//}
+
+void
+ELProtocolV0::sendHarvest(boost::int16_t object_id){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int16(object_id);
+	send(networkbuffer, MessageTypeToServerV0::CTS_HARVEST);
+
+}
+
+//public static void manufactureThisMessage(Player from, ByteBuffer msg) {
+//    //TODO : implements flags in item and send it to client to a possibility of test this
+//    assert (msg.get(0) == ToServerProtocol.MANUFACTURE_THIS.value);//21
+//    byte nbitems = msg.get(3);
+//    byte itemspos[] = new byte[nbitems];
+//    short itemsq[] = new short[nbitems];
+//    for (int i = 0; i < nbitems; ++i) {
+//        itemspos[i] = msg.get(3 + i + 1);
+//        itemsq[i] = msg.get(3 + i + 1 + 1);
+//    }
+//    from.initManufacture(itemspos, itemsq);
+//}
+
+void
+ELProtocolV0::sendManufactureThis(boost::int16_t count, boost::int8_t item_pos_quantity[][2]){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int16(count);
+	for(int i = 0; i < count ; i++){
+		networkbuffer.write_LE_int8(item_pos_quantity[i][0]);
+		networkbuffer.write_LE_int8(item_pos_quantity[i][1]);
+	}
+	send(networkbuffer, MessageTypeToServerV0::CTS_MANUFACTURE_THIS);
+}
+
+//public static void setActiveChannelMessage(NetworkClient from, ByteBuffer msg) {
+//    assert (msg.get(0) == ToServerProtocol.SET_ACTIVE_CHANNEL.value);//61
+//    byte n = msg.get(3);
+//    from.setActiveChannel(n);
+//}
+
+void
+ELProtocolV0::sendSetActiveChannel(boost::int8_t channel ){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int8(channel);
+	send(networkbuffer, MessageTypeToServerV0::CTS_SET_ACTIVE_CHANNEL);
+}
+
+//public static void castSpellMessage(Player from, ByteBuffer msg) {
+//    assert(msg.get(0)==ToServerProtocol.CAST_SPELL.value);
+//    byte number = msg.get(3);
+//    byte[]sigils = new byte[number];
+//    for(int i = 0 ; i <sigils.length;i++){
+//        sigils[i]=msg.get(i+4);
+//    }
+//    Spell s = Spell.getSpell(sigils);
+//    if(s!=null){
+//        if(s.distant)from.spellRequest(s);
+//        else from.spellRequest(s, null);//TODO get player and other
+//    }
+//
+//
+//}
+
+void
+ELProtocolV0::sendCastSpell(boost::int8_t channel, boost::int8_t sigil[]){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int8(channel);
+	for(int i = 0 ; i < channel ; i++){
+		networkbuffer.write_LE_int8(sigil[i]);
+	}
+	send(networkbuffer, MessageTypeToServerV0::CTS_CAST_SPELL);
+}
+
+
+void
+ELProtocolV0::sendPong(boost::int32_t payload){
+	Network::Buffer networkbuffer;
+	networkbuffer.write_LE_int32(payload);
+	send(networkbuffer, MessageTypeToServerV0::CTS_PING_RESPONSE);
+}
+
+
+void
 ELProtocolV0::send(Network::Buffer& networkbuffer, char type){
 /*	Game::Message to_send = getGameManager().GetToSend();
 	sendMessage(to_send,networkbuffer,type);*/
 	Network::Buffer * out = new Network::Buffer();
+	networkbuffer.makeReadable();
 	out->write_LE_int8(type);
 	out->write_LE_int16(networkbuffer.in_avail()+1);
 	out->sputn(
@@ -74,6 +300,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 
 			packet_type_ = message.read_LE_uint8();
 			packet_size_ = message.read_LE_uint16()-1;
+			std::cout << "Got packet of type " << packet_type_ << std::endl;
 		}else{
 			return;
 		}
@@ -81,9 +308,8 @@ ELProtocolV0::parse(Network::Buffer & message){
 
 	if(message.in_avail() >= packet_size_){
 
-		MessageTypeV0 message_type = (MessageTypeV0)packet_type_;
-		switch(message_type){
-			case RAW_TEXT :
+		switch(packet_type_){
+			case MessageTypeV0::RAW_TEXT :
 			{
 				int 		first 	= message.read_LE_uint8();
 				std::string text 	= message.read_c_string();
@@ -95,7 +321,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				}
 				break;
 			}
-			case ADD_NEW_ACTOR :
+			case MessageTypeV0::ADD_NEW_ACTOR :
 				/*
 				msg.putShort((short) (20 + 1 + mob.getContent().name.length()));
 				msg.putShort(mob.id); // actor id
@@ -123,6 +349,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				 * 0x1000 is the smallest value where a beaver is recognizable, at 0x0100 it's just few pixels in my 1280x1024 resolution
 				 */
 			{
+				boost::int16_t actor_id = message.read_LE_int16();
 				bool invisible = false;
 				boost::int16_t x_pos = message.read_LE_int16();
 				if(x_pos&0x800){
@@ -151,7 +378,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case ADD_ACTOR_COMMAND :
+			case MessageTypeV0::ADD_ACTOR_COMMAND :
 			{
 				/*for (int i = 0; i < actors.length; ++i) {
 					   msg.putShort(actors[i].id);
@@ -165,24 +392,24 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case YOU_ARE :
+			case MessageTypeV0::YOU_ARE :
 			{
 				boost::int16_t player_actor = message.read_LE_int16();
 				//TODO write actual code
 				break;
 			}
-			case SYNC_CLOCK ://Actually this message is nothing
+			case MessageTypeV0::SYNC_CLOCK ://Actually this message is nothing
 			{
 				boost::int32_t clock = message.read_LE_int32(); //always 0
 				//TODO find a use
 				break;
 			}
-			case NEW_MINUTE :
+			case MessageTypeV0::NEW_MINUTE :
 			{
 				boost::int16_t game_time = message.read_LE_int16();
 				//TODO write actual code
 			}
-			case REMOVE_ACTOR :
+			case MessageTypeV0::REMOVE_ACTOR :
 			{
 				while(message.in_avail()){
 					boost::int16_t actor = message.read_LE_int16();
@@ -190,22 +417,22 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case CHANGE_MAP :
+			case MessageTypeV0::CHANGE_MAP :
 			{
 				std::string map_name = message.read_c_string();
 				//TODO write actual code
 				break;
 			}
-			case COMBAT_MODE :
+			case MessageTypeV0::COMBAT_MODE :
 			{
 				//unimplemented on server
 				break;
 			}
-			case KILL_ALL_ACTORS :
+			case MessageTypeV0::KILL_ALL_ACTORS :
 				// no data needed
 				//TODO write actual code
 				break;
-			case GET_TELEPORTERS_LIST :
+			case MessageTypeV0::GET_TELEPORTERS_LIST :
 					//list of knows teleport,
 					// msg is : num of tp, [x,y,type] x y is short, type byte and unused
 	/*		{
@@ -220,13 +447,13 @@ ELProtocolV0::parse(Network::Buffer & message){
 			}*/
 				//unimplemented on server
 				break;
-			case PONG :
+			case MessageTypeV0::PONG :
 			{
 				boost::int32_t payload = message.read_LE_int32();
 				//TODO write actual code
 				break;
 			}
-			case TELEPORT_IN :
+			case MessageTypeV0::TELEPORT_IN :
 					// is to show the particles associated with teleportaion
 					// msg is : x(short) y (short)
 			{
@@ -235,7 +462,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case TELEPORT_OUT :
+			case MessageTypeV0::TELEPORT_OUT :
 					// same as teleport in but for particule to quit an area
 			{
 				boost::int16_t pos_x = message.read_LE_int16();
@@ -243,14 +470,14 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case PLAY_SOUND :
-			case START_RAIN : // delete later on
-			case STOP_RAIN : // delete later on
-			case THUNDER :
+			case MessageTypeV0::PLAY_SOUND :
+			case MessageTypeV0::START_RAIN : // delete later on
+			case MessageTypeV0::STOP_RAIN : // delete later on
+			case MessageTypeV0::THUNDER :
 				//not implemented on server
 				//TODO maybe something
 				break;
-			case HERE_YOUR_STATS :
+			case MessageTypeV0::HERE_YOUR_STATS :
 			{
 				/*
 				msg.putShort(hisContent.phyCur);
@@ -275,7 +502,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				boost::int16_t will_current  = message.read_LE_int16();
 				boost::int16_t will_base     = message.read_LE_int16();
 				boost::int16_t inst_current  = message.read_LE_int16();
-				boost::int16_t inwt_base     = message.read_LE_int16();
+				boost::int16_t inst_base     = message.read_LE_int16();
 				boost::int16_t vit_current   = message.read_LE_int16();
 				boost::int16_t vit_base      = message.read_LE_int16();
 				//TODO clearer names
@@ -420,9 +647,13 @@ ELProtocolV0::parse(Network::Buffer & message){
 
 				boost::int16_t summon_current    = message.read_LE_int16();
 				boost::int16_t summon_base       = message.read_LE_int16();
-				boost::int16_t summon_exp        = message.read_LE_int16();
-				boost::int16_t summon_next_level = message.read_LE_int16();
+				boost::int32_t summon_exp        = message.read_LE_int32();
+				boost::int32_t summon_next_level = message.read_LE_int32();
 
+				boost::int16_t crafting_current    = message.read_LE_int16();
+				boost::int16_t crafting_base       = message.read_LE_int16();
+				boost::int32_t exp        = message.read_LE_int32();
+				boost::int32_t next_level = message.read_LE_int32();
 
 				/*msg.putShort((short) 0);//charisme
 				msg.putShort((short) 0);//religion
@@ -431,22 +662,22 @@ ELProtocolV0::parse(Network::Buffer & message){
 				msg.putShort((short) 0);//charisme next
 				msg.putShort((short) 0);//charisme lvl
 				msg.putShort((short) 0);//charisme rang*/
-
-				if(message.in_avail()){ // probably shouldn't have an if here
-					boost::int16_t charisma       = message.read_LE_int16();
-					boost::int16_t religion       = message.read_LE_int16();
-					boost::int16_t religion_level = message.read_LE_int16();
-					boost::int16_t race           = message.read_LE_int16();
-					boost::int16_t charisma_next  = message.read_LE_int16();
-					boost::int16_t charisma_level = message.read_LE_int16();
-					boost::int16_t charisma_rank  = message.read_LE_int16();
+				boost::int16_t charisma=0,religion=0,religion_level=0,race=0,charisma_next=0,charisma_level=0,charisma_rank=0;
+				if(packet_size_ > 199){ // probably shouldn't have an if here
+					charisma       = message.read_LE_int16();
+					religion       = message.read_LE_int16();
+					religion_level = message.read_LE_int16();
+					race           = message.read_LE_int16();
+					charisma_next  = message.read_LE_int16();
+					charisma_level = message.read_LE_int16();
+					charisma_rank  = message.read_LE_int16();
 				}
 
 
 				//TODO write actual code
 				break;
 			}
-			case HERE_YOUR_INVENTORY :
+			case MessageTypeV0::HERE_YOUR_INVENTORY :
 			{
 				/*
 				msg.put(size); // total items
@@ -471,7 +702,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case INVENTORY_ITEM_TEXT :
+			case MessageTypeV0::INVENTORY_ITEM_TEXT :
 			{
 				/*  msg.put((byte) (TextColor.c_red1.value + 127));
 					msg.put(txt.getBytes(iso88591)); */
@@ -487,7 +718,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case GET_NEW_INVENTORY_ITEM :
+			case MessageTypeV0::GET_NEW_INVENTORY_ITEM :
 			{
 				while(message.in_avail()){
 					boost::int16_t item_id       = message.read_LE_int16();
@@ -498,7 +729,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case REMOVE_ITEM_FROM_INVENTORY :
+			case MessageTypeV0::REMOVE_ITEM_FROM_INVENTORY :
 			{
 				while(message.in_avail()){
 					boost::int8_t  item_position = message.read_LE_int8();
@@ -506,7 +737,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case HERE_YOUR_GROUND_ITEMS :
+			case MessageTypeV0::HERE_YOUR_GROUND_ITEMS :
 			{
 				int quantity = message.read_LE_uint8();
 				for(int i = 0; i < quantity; i++){
@@ -517,7 +748,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case GET_NEW_GROUND_ITEM :
+			case MessageTypeV0::GET_NEW_GROUND_ITEM :
 			{
 				while(message.in_avail()){
 					boost::int16_t item_id       = message.read_LE_int16();
@@ -527,14 +758,14 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case REMOVE_ITEM_FROM_GROUND :
+			case MessageTypeV0::REMOVE_ITEM_FROM_GROUND :
 				//Not implemented on server
 				//TODO implement
 				break;
-			case CLOSE_BAG :
+			case MessageTypeV0::CLOSE_BAG :
 				//no data
 				//TODO write actual code
-			case GET_NEW_BAG :
+			case MessageTypeV0::GET_NEW_BAG :
 			{
 				while(message.in_avail()){
 					boost::int16_t pos_x       = message.read_LE_int16();
@@ -544,7 +775,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case GET_BAGS_LIST :
+			case MessageTypeV0::GET_BAGS_LIST :
 			{
 				int quantity = message.read_LE_uint8();
 				for(int i = 0; i < quantity; i++){
@@ -555,7 +786,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case DESTROY_BAG :
+			case MessageTypeV0::DESTROY_BAG :
 			{
 				while(message.in_avail()){
 					boost::int8_t  bag_id = message.read_LE_int8();
@@ -563,9 +794,9 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case NPC_TEXT :
+			case MessageTypeV0::NPC_TEXT :
 				//todo java implementation is strange
-			case NPC_OPTIONS_LIST :
+			case MessageTypeV0::NPC_OPTIONS_LIST :
 				/*
 				//size of an option in US client is 3 + text len +2+2
 				//size of an option in FR client is 3 + text len +2+4 because the response_id is 32bits instead of 16
@@ -591,10 +822,10 @@ ELProtocolV0::parse(Network::Buffer & message){
 				break;
 			}
 
-			case CLOSE_NPC_MENU :
+			case MessageTypeV0::CLOSE_NPC_MENU :
 				//not implemented on server
 				break;
-			case SEND_NPC_INFO :
+			case MessageTypeV0::SEND_NPC_INFO :
 				/*
 				msg.put(name.getBytes());
 				for (int i = 0; i < 20 - name.length(); i++) {
@@ -613,39 +844,42 @@ ELProtocolV0::parse(Network::Buffer & message){
 				break;
 			}
 
-			case GET_TRADE_INFO : // delete later on
-			case GET_TRADE_OBJECT :
-			case GET_TRADE_ACCEPT :
-			case GET_TRADE_REJECT :
-			case GET_TRADE_EXIT :
-			case REMOVE_TRADE_OBJECT :
-			case GET_YOUR_TRADEOBJECTS :
-			case GET_TRADE_PARTNER_NAME :
+			case MessageTypeV0::GET_TRADE_INFO : // delete later on
+			case MessageTypeV0::GET_TRADE_OBJECT :
+			case MessageTypeV0::GET_TRADE_ACCEPT :
+			case MessageTypeV0::GET_TRADE_REJECT :
+			case MessageTypeV0::GET_TRADE_EXIT :
+			case MessageTypeV0::REMOVE_TRADE_OBJECT :
+			case MessageTypeV0::GET_YOUR_TRADEOBJECTS :
+			case MessageTypeV0::GET_TRADE_PARTNER_NAME :
 				// to be deleted
 				break;
 
-			case GET_YOUR_SIGILS :
+			case MessageTypeV0::GET_YOUR_SIGILS :
 			{
 				boost::int32_t sigil = message.read_LE_int32();
 				//TODO write actual code
 				break;
 			}
-			case SPELL_ITEM_TEXT :
-			case GET_ACTIVE_SPELL :
+			case MessageTypeV0::SPELL_ITEM_TEXT :
+			case MessageTypeV0::GET_ACTIVE_SPELL :
 				//not implemented on server
 				break;
-			case GET_ACTIVE_SPELL_LIST :
+			case MessageTypeV0::GET_ACTIVE_SPELL_LIST :
 			{
+				std::vector<boost::int8_t> active_spells;
 					//list of ten active spell,
 					// a byte whos is number in the texture/sigils.bmp, -1 is no spell
 				while(message.in_avail()){
 					boost::int8_t spell = message.read_LE_int8();
+					active_spells.push_back(spell);
 				}
+
 			}
-			case REMOVE_ACTIVE_SPELL :
+			case MessageTypeV0::REMOVE_ACTIVE_SPELL :
 				//not implemented on server
 				break;
-			case GET_ACTOR_DAMAGE :
+			case MessageTypeV0::GET_ACTOR_DAMAGE :
 			{
 				boost::int16_t actor_id = message.read_LE_int16();
 				boost::int16_t damage = message.read_LE_int16();
@@ -654,7 +888,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case GET_ACTOR_HEAL :
+			case MessageTypeV0::GET_ACTOR_HEAL :
 			{
 				boost::int16_t actor_id = message.read_LE_int16();
 				boost::int16_t heal = message.read_LE_int16();
@@ -663,7 +897,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case SEND_PARTIAL_STAT :
+			case MessageTypeV0::SEND_PARTIAL_STAT :
 			{
 				/* msg.put(name.value);
 				   msg.putInt(value);*/
@@ -674,10 +908,10 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case SPAWN_BAG_PARTICLES :
+			case MessageTypeV0::SPAWN_BAG_PARTICLES :
 				//not implemented on server
 				break;
-			case ADD_NEW_ENHANCED_ACTOR :
+			case MessageTypeV0::ADD_NEW_ENHANCED_ACTOR :
 			{
 				/*	msg.putShort(which.id);
 					if (which.isInvisible()) {
@@ -750,7 +984,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case ACTOR_WEAR_ITEM :
+			case MessageTypeV0::ACTOR_WEAR_ITEM :
 			{
 				/*  msg.putShort(actor.id);
 					msg.put(item.getType().value);
@@ -762,7 +996,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case ACTOR_UNWEAR_ITEM :
+			case MessageTypeV0::ACTOR_UNWEAR_ITEM :
 			{
 				boost::int16_t actor_id       = message.read_LE_int16();
 				boost::int8_t  item_type      = message.read_LE_int8();
@@ -770,9 +1004,9 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case PLAY_MUSIC :
+			case MessageTypeV0::PLAY_MUSIC :
 				//not implemented on server
-			case GET_KNOWLEDGE_LIST :
+			case MessageTypeV0::GET_KNOWLEDGE_LIST :
 			{
 					//send size of list and a list of bit with id of knowledge
 					// (see knowledge.lst in client) is position in message,
@@ -783,40 +1017,42 @@ ELProtocolV0::parse(Network::Buffer & message){
 				//TODO write actual code
 				break;
 			}
-			case GET_NEW_KNOWLEDGE :
+			case MessageTypeV0::GET_NEW_KNOWLEDGE :
 			{
 				boost::int16_t actor_id       = message.read_LE_int16();
 
 				//TODO write actual code
 				break;
 			}
-			case GET_KNOWLEDGE_TEXT :
-			case BUDDY_EVENT :
+			case MessageTypeV0::GET_KNOWLEDGE_TEXT :
+			case MessageTypeV0::BUDDY_EVENT :
 					// byte 1 (true) 0 (false)--> add or remove,
 					// byte type (format unknow), String playername
 
 				//not implemented on server
 				break;
-			case PING_REQUEST :
+			case MessageTypeV0::PING_REQUEST :
 			{
 				boost::int32_t payload = message.read_LE_int32();
+				sendPong(payload);
 				//TODO pong
 				break;
 			}
 
-			case FIRE_PARTICLES :
-			case REMOVE_FIRE_AT :
-			case DISPLAY_CLIENT_WINDOW :
-			case OPEN_BOOK :
-			case READ_BOOK :
-			case CLOSE_BOOK :
-			case STORAGE_LIST :
-			case STORAGE_ITEMS :
-			case STORAGE_TEXT :
-			case SPELL_CAST :
+			case MessageTypeV0::FIRE_PARTICLES :
+			case MessageTypeV0::REMOVE_FIRE_AT :
+			case MessageTypeV0::DISPLAY_CLIENT_WINDOW :
+			case MessageTypeV0::OPEN_BOOK :
+			case MessageTypeV0::READ_BOOK :
+			case MessageTypeV0::CLOSE_BOOK :
+			case MessageTypeV0::STORAGE_LIST :
+			case MessageTypeV0::STORAGE_ITEMS :
+			case MessageTypeV0::STORAGE_TEXT :
+			case MessageTypeV0::SPELL_CAST :
 				//not implemented on server
+				getGameManager().giveError("not implemented");
 				break;
-			case GET_ACTIVE_CHANNELS :
+			case MessageTypeV0::GET_ACTIVE_CHANNELS :
 			{
 				boost::int8_t activecc = message.read_LE_int8();
 				while(message.in_avail()){
@@ -824,10 +1060,11 @@ ELProtocolV0::parse(Network::Buffer & message){
 				}
 
 			}
-			case MAP_FLAGS :
+			case MessageTypeV0::MAP_FLAGS :
 				//not implemented on server
+				getGameManager().giveError("not implemented");
 				break;
-			case GET_ACTOR_HEALTH :
+			case MessageTypeV0::GET_ACTOR_HEALTH :
 			{
 				/*  msg.putShort(a.id);
 					if (itsMe) {
@@ -841,73 +1078,80 @@ ELProtocolV0::parse(Network::Buffer & message){
 				boost::int16_t health_base       = message.read_LE_int16();
 				boost::int16_t life_status       = message.read_LE_int16();
 
+				getGameManager().giveError("not implemented GET_ACTOR_HEALTH");
+
+				break;
 			}
-			case GET_3D_OBJ_LIST :
-			case GET_3D_OBJ :
-			case REMOVE_3D_OBJ :
-			case GET_ITEMS_COOLDOWN :
-			case SEND_BUFFS :
-			case SEND_SPECIAL_EFFECT :
-			case SEND_WEATHER :
+			case MessageTypeV0::GET_3D_OBJ_LIST :
+			case MessageTypeV0::GET_3D_OBJ :
+			case MessageTypeV0::REMOVE_3D_OBJ :
+			case MessageTypeV0::GET_ITEMS_COOLDOWN :
+			case MessageTypeV0::SEND_BUFFS :
+			case MessageTypeV0::SEND_SPECIAL_EFFECT :
+			case MessageTypeV0::SEND_WEATHER :
 
 					//MANU_ITEM_TEXT(20), // devrait devenir( 127), a terme -
 					//actuellement non utilisé
-			case DISPLAY_COORD :
+			case MessageTypeV0::DISPLAY_COORD :
 					// reserved for future expansion( 220),-229, not being used in the server
 					// yet
-			case MAP_SET_OBJECTS :
+			case MessageTypeV0::MAP_SET_OBJECTS :
 					//^ is used for send object 2d or 3d to client,
 					//need more dev, send the type of obj 0 -> 2d, 1 -> 3d
 					//structure is type (byte) raw data
 					//probably not used
-			case MAP_STATE_OBJECTS :
+			case MessageTypeV0::MAP_STATE_OBJECTS :
 					//probably not used
 
-			case UPGRADE_NEW_VERSION :
+			case MessageTypeV0::UPGRADE_NEW_VERSION :
 					// TODO: Consider combining all this into one
 					// packet followed by one byte (plus optional
 					// text)
-			case UPGRADE_TOO_OLD :
-			case REDEFINE_YOUR_COLORS :
+			case MessageTypeV0::UPGRADE_TOO_OLD :
+			case MessageTypeV0::REDEFINE_YOUR_COLORS :
 				//not implemented on server
+
+				getGameManager().giveError("Implemented");
 				break;
-			case YOU_DONT_EXIST :
+			case MessageTypeV0::YOU_DONT_EXIST :
 			{
 				//no parameters
-
+				std::cout << "kikoo\n";
 				getGameManager().giveError("exist");
 				break;
 			}
-			case LOG_IN_OK :
+			case MessageTypeV0::LOG_IN_OK :
 			{
 				//no parameters
 
 				getGameManager().giveOk("login");
 				break;
 			}
-			case LOG_IN_NOT_OK :
+			case MessageTypeV0::LOG_IN_NOT_OK :
 			{
 				std::string error_message = message.read_c_string();
 
 				getGameManager().giveError("login",error_message);
 				break;
 			}
-			case CREATE_CHAR_OK :
+			case MessageTypeV0::CREATE_CHAR_OK :
 			{
 				//no parameters
 
 				getGameManager().giveOk("character");
 				break;
 			}
-			case CREATE_CHAR_NOT_OK :
+			case MessageTypeV0::CREATE_CHAR_NOT_OK :
 			{
 				std::string error_message = message.read_c_string();
 
 				getGameManager().giveError("character",error_message);
 				break;
 			}
-			case BYE :
+			case MessageTypeV0::BYE :
 			break;
+			default :
+				std::cout << "how much is " << packet_type_ << "?" << std::endl;
 		}
 		packet_size_ = -1;
 	}

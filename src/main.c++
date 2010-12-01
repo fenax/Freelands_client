@@ -4,6 +4,10 @@
 #include "Tools/Configuration.h"
 #include "Network/TcpNetwork.h"
 
+#include "Network/Buffer.h"
+
+using namespace std;
+
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
@@ -30,8 +34,25 @@ extern "C" {
 
         	network.connect();
         	network.start();
+        	protocol.sendCreateCharacter("login","password", 0,0,0,0,0,0,0);
 
         	protocol.sendLogin("login","password");
+
+//        	Network::Buffer buff;
+//        	cout << "size = " << buff.size() << endl;
+//        	cout << "in_avial = " << buff.in_avail() << endl;
+//        	string kikoo = "putain de merde";
+//        	cout << "string is : " << kikoo.length() << " caracters long"<< endl;
+//        	buff.write_c_string(kikoo);
+//        	cout << "size = " << buff.size() << endl;
+//        	cout << "in_avial = " << buff.in_avail() << endl;
+//
+//        	buff.makeReadable();
+//        	cout << "size = " << buff.size() << endl;
+//        	cout << "in_avial = " << buff.in_avail() << endl;
+
+
+
 
             //app.go();
 

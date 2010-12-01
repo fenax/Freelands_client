@@ -24,6 +24,7 @@ public:
 	{}*/
 	virtual ~Buffer();
 
+
 	boost::int32_t read_LE_int32();
 	boost::int16_t read_LE_int16();
 	boost::int8_t read_LE_int8();
@@ -34,10 +35,12 @@ public:
 	std::string read_c_string();
 
 	void write_LE_int32(boost::int32_t value);
-	void write_LE_int16(boost::int16_t value);
+	void write_LE_int16(boost::uint16_t value);
 	void write_LE_int8(boost::int8_t value);
 
 	void write_c_string(std::string value);
+
+	void makeReadable();
 
 };
 }

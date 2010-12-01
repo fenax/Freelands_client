@@ -27,9 +27,42 @@ void
 GameManager::giveError(std::string type, std::string message){
 	std::cout << "error, could not " << type << " : " << message << std::endl;
 }
+
 void
 GameManager::giveOk(std::string type, std::string message){
 	std::cout << type << "Ok " << " : " << message << std::endl;
 }
 
+void
+GameManager::giveRawMessage(std::string message){
+	std::cout << message << std::endl;
 }
+
+void
+GameManager::givePlayerId(boost::int64_t player_id){
+	player_id_ = player_id;
+	std::cout << "player id is : " << player_id << std::endl;
+}
+
+void
+GameManager::giveTime(boost::int8_t hour, boost::int8_t minute){
+	hour_ = hour;
+	minute_ = minute;
+	std::cout << "time changed to : " << hour << ":" << minute << std::endl;
+}
+
+void
+GameManager::giveSigils(boost::int32_t sigils){
+	player_.setSigils(sigils);
+	std::cout << "sigils are " << sigils << std::endl;
+}
+
+void
+GameManager::giveActiveSpells(std::vector<boost::uint8_t> active_spells){
+	player_.setActiveSpells(active_spells);
+}
+
+}
+
+
+

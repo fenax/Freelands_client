@@ -1,7 +1,7 @@
 namespace Protocol{
 	class MessageTypeToServerV0{
 	public:
-		static const char
+		static const int
 		CTS_RAW_TEXT = 0,
 		CTS_MOVE_TO = 1,
 		CTS_SEND_PM = 2,

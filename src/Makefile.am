@@ -15,6 +15,8 @@ EternalLands_SOURCES += Protocol/Protocol.c++
 EternalLands_SOURCES += Protocol/ELProtocolV0.c++
 
 EternalLands_SOURCES += Game/GameManager.c++ 
+EternalLands_SOURCES += Game/Actor.c++ 
+EternalLands_SOURCES += Game/Player.c++ 
 
 
 EternalLands_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(BOOST_LDFLAGS) -lboost_thread
