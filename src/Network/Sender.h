@@ -27,15 +27,13 @@
 
 #include "Network/Buffer.h"
 
-namespace Network
-{
+namespace Network {
 
-class Sender
-{
-public:
-    virtual void send(Buffer *,int priority = 0) = 0; // zero is send at once
+    class Sender {
+    public:
+        virtual void send(Buffer *, int priority = 0) = 0; // zero is send at once
 
-};
+    };
 
 }
 
