@@ -9,6 +9,7 @@
 #define ACTOR_H_
 
 #include <boost/cstdint.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include <OgreEntity.h>
 
@@ -22,6 +23,9 @@ protected:
 	Ogre::Entity* entity_;
 
 	boost::int16_t id_;
+
+	boost::int8_t current_action_;//TODO maybe an queue
+	boost::posix_time::ptime start_time;
 
 	boost::int16_t position_x_;
 	boost::int16_t position_y_;
@@ -58,6 +62,10 @@ public:
 
 	boost::int16_t getId();
 	std::string& getName();
+	void setAction(int action);
+	void finishAction();
+
+	virtual void tick();
 
 };
 

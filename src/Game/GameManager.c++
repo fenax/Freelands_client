@@ -78,15 +78,48 @@ GameManager::giveNewMap(std::string map){
 void
 GameManager::giveNewActor(Actor& actor){
 	if(actor.getId() == player_id_){
-		player_.setAll(dynamic_cast<EnhancedActor&>(actor));
+		std::cout << "should not get player of Actor type" << std::endl;
+	}else{
+		actors_.push_back(*new Actor(actor));
+		std::cout << "Added non player actor : " << actor.getName() << std::endl;
+	}
+}
+
+void
+GameManager::giveNewActor(EnhancedActor& actor){
+	if(actor.getId() == player_id_){
+		player_.setAll(actor);
 		std::cout << "Added player actor : " << actor.getName() << std::endl;
 	}else{
-		actors_.push_back(actor);
+		actors_.push_back(*new Actor(actor));
 		std::cout << "Added non player actor : " << actor.getName() << std::endl;
 	}
 }
 
 
+void
+GameManager::giveRemoveActor(boost::int16_t id){
+	for( std::deque<Actor>::iterator it = actors_.begin(); it != actors_.end() ; it++){
+		if( it->getId() == id ){
+			std::cout << "deleting actor : " << it->getName() << ":" << it->getId() << std::endl;
+			actors_.erase(it);//also delete the element
+			return;
+		}
+	}
+	std::cout << "could not find actor " <<id <<" to delete \n";
+}
+
+void
+GameManager::giveActorCommand(boost::int16_t id,boost::int8_t command){
+	for( std::deque<Actor>::iterator it = actors_.begin(); it != actors_.end() ; it++){
+		if( it->getId() == id ){
+			std::cout << "giving actor : " << it->getName() << ":" << it->getId() << " command : " << (int)command << std::endl;
+			it->setAction(command);
+			return;
+		}
+	}
+	std::cout << "could not find actor to give command \n";
+}
 
 }
 

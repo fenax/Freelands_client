@@ -181,7 +181,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CPPFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(BOOST_CPPFLAGS) -Wall -pedantic
+AM_CPPFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(BOOST_CPPFLAGS) -Wall
 EternalLands_SOURCES = main.c++ Network/TcpNetwork.c++ \
 	Network/Buffer.c++ Network/FatalNetworkException.c++ \
 	MinimalOgre.c++ Protocol/Protocol.c++ \

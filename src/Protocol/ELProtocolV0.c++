@@ -390,6 +390,7 @@ ELProtocolV0::parse(Network::Buffer & message){
 				while(message.in_avail()){
 					boost::int16_t actor  = message.read_LE_int16();
 					boost::int8_t command = message.read_LE_int8();
+					getGameManager().giveActorCommand(actor,command);
 				}
 				//TODO write actual code
 				break;
@@ -416,8 +417,8 @@ ELProtocolV0::parse(Network::Buffer & message){
 			{
 				while(message.in_avail()){
 					boost::int16_t actor = message.read_LE_int16();
+					getGameManager().giveRemoveActor(actor);
 				}
-				//TODO write actual code
 				break;
 			}
 			case MessageTypeV0::CHANGE_MAP :

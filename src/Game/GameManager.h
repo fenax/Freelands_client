@@ -9,6 +9,7 @@
 #define GAMEMANAGER_H_
 
 #include <vector>
+#include <deque>
 #include <boost/noncopyable.hpp>
 
 #include "Tools/Queue.h"
@@ -24,7 +25,7 @@ class GameManager : boost::noncopyable
 {
 private:
 	int64_t player_id_;
-	std::vector<Actor> actors_;
+	std::deque<Actor> actors_;//TODO maybe use a list
 	Player player_;
 	boost::uint8_t hour_;
 	boost::uint8_t minute_;
@@ -42,7 +43,14 @@ public:
     void giveActiveSpells(std::vector<boost::int8_t> active_spells);
     void giveRawMessage(std::string message);
     void giveNewMap(std::string map);
-    void giveNewActor(Actor& actor);
+    virtual void giveNewActor(Actor& actor);
+    virtual void giveNewActor(EnhancedActor& actor);
+
+    void giveRemoveActor(boost::int16_t id);
+    void giveActorCommand(boost::int16_t id, boost::int8_t command);
+
+    Actor& getActor(boost::int16_t id);
+
     Player& getPlayer();
 
 

@@ -10,7 +10,8 @@
 namespace Game
 {
 
-Actor::Actor()
+Actor::Actor():
+		current_action_(0)
 {
 	// TODO Auto-generated constructor stub
 
@@ -21,7 +22,7 @@ Actor::Actor(	boost::int16_t id, bool visible,
 		boost::int16_t rotation_z,
 		boost::uint8_t actor_race, boost::uint8_t actor_frame,
 		boost::int16_t actor_life, boost::int16_t actor_type,
-		std::string& actor_name, boost::int16_t actor_scalability){
+		std::string& actor_name, boost::int16_t actor_scalability):current_action_(0){
 
 	id_ = id;
 
@@ -86,6 +87,22 @@ Actor::getName(){
 	return actor_name_;
 }
 
+void
+Actor::setAction(int action){//check for still running action and stuff;
+	current_action_ = action;
+	start_time = boost::posix_time::microsec_clock::universal_time();
+}
 
+void
+Actor::finishAction(){
+	//TODO write
+}
+
+void
+Actor::tick(){
+	//TODO write
+}
 
 }
+
+
