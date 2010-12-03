@@ -129,6 +129,17 @@ Buffer::read_c_string(){
 	return out;
 }
 
+std::string
+Buffer::read_string(int size){
+    std::string out = "";
+    for(int i = 0; i < size; i++){
+        char c = sgetc();
+        sbumpc();
+	out.append(&c);
+    }
+    return out;
+}
+
 void Buffer::write_c_string(std::string value){
 	sputn(value.c_str(),value.size()+1);
 }

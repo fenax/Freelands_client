@@ -48,6 +48,7 @@ public:
 	boost::uint8_t read_LE_uint8();
 
 	std::string read_c_string();
+	std::string read_string(int size);
 
 	void write_LE_int32(boost::int32_t value);
 	void write_LE_int16(boost::uint16_t value);
