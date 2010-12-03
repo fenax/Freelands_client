@@ -25,10 +25,6 @@
 #ifndef NETWORK_BUFFER_H_
 #define NETWORK_BUFFER_H_
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
-#endif
-
 #include <boost/cstdint.hpp>
 #include <boost/asio.hpp>
 #include <string>
