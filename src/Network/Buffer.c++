@@ -23,6 +23,7 @@
  */
 
 #include <iostream>
+#include <fstream>
 
 #include "Network/Buffer.h"
 
@@ -35,6 +36,16 @@ Buffer::Buffer() {
 
 Buffer::~Buffer() {
 	// TODO Auto-generated destructor stub
+}
+
+Buffer::Buffer(std::string filename){
+    std::ifstream input_file(filename);
+    if(!input_file.is_open()){
+        std::cerr << "could not open file " << filename << std::endl;
+    }
+    *this << input_file;
+    makeReadable();
+    input_file.close();
 }
 
 boost::int32_t

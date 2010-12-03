@@ -36,6 +36,7 @@ namespace Network{
 class Buffer : public boost::asio::basic_streambuf< std::allocator<char> > {
 public:
 	Buffer();
+        Buffer(std::string filename);
 	virtual ~Buffer();
 
 
