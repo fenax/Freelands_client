@@ -39,11 +39,11 @@ Buffer::~Buffer() {
 }
 
 Buffer::Buffer(std::string filename){
-    std::ifstream input_file(filename);
+    std::ifstream input_file(filename.c_str());
     if(!input_file.is_open()){
         std::cerr << "could not open file " << filename << std::endl;
     }
-    *this << input_file;
+    input_file >> this;
     makeReadable();
     input_file.close();
 }
@@ -143,7 +143,7 @@ Buffer::read_string(int size){
 float
 Buffer::read_float(){
     float out;
-    sgetn(static_cast<char*>(&out),4);
+    sgetn(reinterpret_cast<char*>(&out),4);
     return out;
 }
 
