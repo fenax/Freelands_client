@@ -47,6 +47,8 @@ public:
 	boost::uint16_t read_LE_uint16();
 	boost::uint8_t read_LE_uint8();
 
+        float read_float();
+
 	std::string read_c_string();
 	std::string read_string(int size);
 

@@ -140,6 +140,14 @@ Buffer::read_string(int size){
     return out;
 }
 
+float
+Buffer::read_float(){
+    float out;
+    sgetn(static_cast<char*>(&out),4);
+    return out;
+}
+
+
 void Buffer::write_c_string(std::string value){
 	sputn(value.c_str(),value.size()+1);
 }
