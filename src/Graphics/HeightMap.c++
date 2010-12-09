@@ -13,8 +13,11 @@
 #include <stdexcept>
 #include <cstdio>
 #include <OGRE/OgreTechnique.h>
+#include <stdint.h>
+#include <vector>
 
 using namespace Ogre;
+using namespace std;
 
 HeightMap::HeightMap(int width, int height, int tile_size) {
     width_ = width;
@@ -113,7 +116,6 @@ HeightMap::BuildFromElmArray(char * orig_map, char * orig_texture_map){
 MeshPtr
 HeightMap::BuildMesh(){
     MeshPtr mesh = MeshManager::getSingleton().createManual("Heightmap", "Map");
-    SubMesh* sub_mesh = mesh->createSubMesh();
 
     size_t nVertices = array_height_*array_width_;
     size_t vertex_size = 3+3+2;
@@ -152,15 +154,47 @@ HeightMap::BuildMesh(){
             // Texture X,Y
 
             vertex_buffer[vertex_buffer_cursor + 6] =
-                    (1.0 / tile_size_) * (j%tile_size_);
+                    (1.0 / tile_size_) * (j/*%tile_size_*/);
             vertex_buffer[vertex_buffer_cursor + 7] =
-                    (1.0 / tile_size_) * (i%tile_size_);
+                    (1.0 / tile_size_) * (i/*%tile_size_*/);
 
             vertex_buffer_cursor += vertex_size;
         }
     }
 
+    mesh->sharedVertexData = new VertexData();
+    mesh->sharedVertexData->vertexCount = nVertices;
+
+    VertexDeclaration* decl = mesh->sharedVertexData->vertexDeclaration;
+    size_t offset = 0;
+
+    decl->addElement(0, offset, VET_FLOAT3, VES_POSITION);
+    offset += VertexElement::getTypeSize(VET_FLOAT3);
+
+    decl->addElement(0, offset, VET_FLOAT3, VES_NORMAL);
+    offset += VertexElement::getTypeSize(VET_FLOAT3);
+
+    decl->addElement(0, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES);
+    offset += VertexElement::getTypeSize(VET_FLOAT2);
+
+    HardwareVertexBufferSharedPtr hardware_vertex_buffer =
+            HardwareBufferManager::getSingleton().createVertexBuffer(
+                offset,
+                mesh->sharedVertexData->vertexCount,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+
+    hardware_vertex_buffer->writeData(0, 
+                                      hardware_vertex_buffer->getSizeInBytes(),
+                                      vertex_buffer, true);
+
+    VertexBufferBinding* vertex_buffer_binding =
+            mesh->sharedVertexData->vertexBufferBinding;
+    vertex_buffer_binding->setBinding(0, hardware_vertex_buffer);
+
+
     for(int i = 0; i < textures_.size(); i++){
+        SubMesh* sub_mesh = mesh->createSubMesh();
+
         MaterialPtr material =
                 MaterialManager::getSingleton().create("material"+i,"Map");
         TexturePtr texture =
@@ -168,21 +202,45 @@ HeightMap::BuildMesh(){
 
         material->getTechnique(0)->getPass(0)
             ->createTextureUnitState(textures_[i]);
-        
+        //TODO work
 
-        for(int y = 0; y < height_; y++){
-            for(int x = 0; x < width_; x++){
-                if(texture_map_[y][x] == i){
-                    for(int y_tile = 0; y_tile < tile_size_; y_tile++){
-                        for(int x_tile = 0; x_tile < tile_size_; x_tile++){
+        std::vector<uint16_t> mesh_faces;
+        for(int y = 0; y < height_*tile_size_; y++){
+            for(int x = 0; x < width_*tile_size_; x++){
+                if(texture_map_[y/tile_size_][x/tile_size_] == i){
+                    mesh_faces.push_back(y*array_width_+x);
+                    mesh_faces.push_back((y+1)*array_width_+x);
+                    mesh_faces.push_back(y*array_width_+(x+1));
 
-                        }
-                    }
+                    mesh_faces.push_back((y+1)*array_width_+x);
+                    mesh_faces.push_back(y*array_width_+(x+1));
+                    mesh_faces.push_back((y+1)*array_width_+(x+1));
                 }
             }
         }
-    }
 
+        /// Allocate index buffer of the requested number of vertices (ibufCount)
+        HardwareIndexBufferSharedPtr ibuf =
+                HardwareBufferManager::getSingleton().
+                    createIndexBuffer(  HardwareIndexBuffer::IT_16BIT,
+                                        mesh_faces.size(),
+                                        HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+
+        /// Upload the index data to the card
+        ibuf->writeData(0, ibuf->getSizeInBytes(), &mesh_faces[0], true);
+
+        /// Set parameters of the submesh
+        sub_mesh->useSharedVertices = true;
+        sub_mesh->indexData->indexBuffer = ibuf;
+        sub_mesh->indexData->indexCount = mesh_faces.size();
+        sub_mesh->indexData->indexStart = 0;
+
+    }
+    /// Set bounding information (for culling)
+    mesh->_setBounds(AxisAlignedBox(-100,-100,-100,100,100,100));
+    mesh->_setBoundingSphereRadius(Math::Sqrt(3*100*100));
+
+    mesh->load();
 }
 
 
