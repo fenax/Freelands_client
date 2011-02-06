@@ -13,6 +13,8 @@
 
 #include <OGRE/OgreMesh.h>
 
+#include <Tools/Grid.h>
+
 class HeightMap {
     private:
         int width_;
@@ -20,11 +22,11 @@ class HeightMap {
         int tile_size_;
         int array_width_;
         int array_height_;
-        float  height_map_[][];
-        int texture_map_[][];
+        Grid<float> height_map_;
+        Grid<size_t> texture_map_;
         std::vector<std::string> textures_;
 
-        float HeightMap::ElmToAltitude(int alt);
+        float ElmToAltitude(int alt);
     public:
         static const float altitude_unit = 0.2f;
         static const int elm_base_altitude = 0x1b;

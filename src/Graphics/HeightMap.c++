@@ -9,6 +9,8 @@
 #include <OGRE/OgreMeshManager.h>
 #include <OGRE/OgreMaterialManager.h>
 #include <OGRE/OgreTextureManager.h>
+#include <OGRE/OgreHardwareBufferManager.h>
+#include <OGRE/OgreSubMesh.h>
 #include <cmath>
 #include <stdexcept>
 #include <cstdio>
@@ -17,7 +19,6 @@
 #include <vector>
 
 using namespace Ogre;
-using namespace std;
 
 HeightMap::HeightMap(int width, int height, int tile_size) {
     width_ = width;
@@ -27,8 +28,8 @@ HeightMap::HeightMap(int width, int height, int tile_size) {
     array_width_ = width_ * tile_size + 1;
     array_height_ = height_ * tile_size + 1;
 
-    height_map_ = new [array_height_][array_width_] float;
-    texture_map_ = new [height_][width_] size_t;
+    height_map_ = Grid<float>(array_width_,array_height_);
+    texture_map_ =Grid<size_t>(width_,height_);
 }
 
 float HeightMap::ElmToAltitude(int alt){
@@ -93,9 +94,9 @@ HeightMap::BuildFromElmArray(char * orig_map, char * orig_texture_map){
         for(size_t j = 0; j<width_-1; j++){
             size_t current;
             try{
-                current = texture_id_association.at(orig_texture_map[i][j]);
+                current = texture_id_association.at(orig_texture_map[i*width_+j]);
             }catch(std::out_of_range error){
-                texture_id_association[orig_texture_map[i][j]] = x;
+                texture_id_association[orig_texture_map[i*width_+j]] = x;
                 current = x;
                 x++;
             }
@@ -108,7 +109,7 @@ HeightMap::BuildFromElmArray(char * orig_map, char * orig_texture_map){
             it++){
         char temp[20];
         sprintf(temp,"tiles/tile%2d.bmp", it->first);
-        textures_[it->second] =  new String(temp);
+        textures_[it->second] =  String(temp);
     }
 
 }
@@ -140,8 +141,8 @@ HeightMap::BuildMesh(){
                 vertex_buffer[vertex_buffer_cursor + 4] = 1.0;
                 vertex_buffer[vertex_buffer_cursor + 5] = 0.0;
             }else{
-                float delta_y_x = map[i][j-1] - map[i][j+1];
-                float delta_y_z = map[i+1][j] - map[i-1][j];
+                float delta_y_x = height_map_[i][j-1] - height_map_[i][j+1];
+                float delta_y_z = height_map_[i+1][j] - height_map_[i-1][j];
                 float magnitude =
                         sqrt(delta_y_x*delta_y_x + delta_y_z*delta_y_z + 1.0f);
 
@@ -192,7 +193,7 @@ HeightMap::BuildMesh(){
     vertex_buffer_binding->setBinding(0, hardware_vertex_buffer);
 
 
-    for(int i = 0; i < textures_.size(); i++){
+    for(size_t i = 0; i < textures_.size(); i++){
         SubMesh* sub_mesh = mesh->createSubMesh();
 
         MaterialPtr material =
@@ -241,6 +242,7 @@ HeightMap::BuildMesh(){
     mesh->_setBoundingSphereRadius(Math::Sqrt(3*100*100));
 
     mesh->load();
+    return mesh;
 }
 
 
@@ -248,6 +250,5 @@ HeightMap::BuildMesh(){
 //}
 
 HeightMap::~HeightMap() {
-    delete [] height_map_;
 }
 
