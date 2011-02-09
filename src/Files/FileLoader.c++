@@ -28,7 +28,7 @@
 
 
 
-FileLoader::FileLoader(Game::GameManager & game_manager):game_manager_(game_manager){
+FileLoader::FileLoader(){
 
 }
 

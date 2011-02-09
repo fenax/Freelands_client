@@ -33,10 +33,9 @@
 
 class FileLoader {
 protected:
-    Game::GameManager& game_manager_;
     Network::Buffer& readFile(std::string filename);
 public:
-    FileLoader(Game::GameManager & game_manager);
+    FileLoader();
     virtual ~FileLoader();
 
     virtual void loadFile(std::string filename) = 0;
