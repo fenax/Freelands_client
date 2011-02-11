@@ -48,13 +48,15 @@ extern "C" {
 #endif
     {
         // Create application object
-        MinimalOgre app;
 
         try {
         	Tools::Configuration configuration;
         	Game::GameManager game_manager;
+
         	Protocol::ELProtocolV0 protocol(game_manager);
+
         	Network::TcpNetwork network(configuration.server, protocol);
+
 
         	network.connect();
         	network.start();
