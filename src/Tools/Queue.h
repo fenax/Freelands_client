@@ -30,6 +30,7 @@
 #include <boost/noncopyable.hpp>
 #include <boost/thread/locks.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/thread/condition_variable.hpp>
 namespace Tools
 {
 
@@ -38,6 +39,7 @@ class Queue : public std::queue<T,std::deque<T> >, boost::noncopyable
 {
 private:
 	boost::mutex mutex_;
+	boost::condition_variable condition_variable_;
 public:
 
 //	empty	Test whether container is empty (public member function)
@@ -64,17 +66,30 @@ public:
 		return std::queue<T,std::deque<T> >::back();
 	}
 	//	push	Insert element (public member function)
+	//	back
 	void
 	push ( const T& x ){
 		boost::unique_lock<boost::mutex> lock(mutex_);
 		std::queue<T,std::deque<T> >::push(x);
+		condition_variable_.notify_one();
 		return;
 	}
 	//	pop	Delete next element (public member function)
+	//	front
 	void
 	pop(){
 		boost::unique_lock<boost::mutex> lock(mutex_);
 		std::queue<T,std::deque<T> >::pop();
+	}
+	T
+	blockingPop(){
+		boost::unique_lock<boost::mutex> lock(mutex_);
+		while(std::queue<T,std::deque<T> >::empty()){
+			condition_variable_.wait(lock);
+		}
+		T temp = std::queue<T,std::deque<T> >::front();
+		std::queue<T,std::deque<T> >::pop();
+		return temp;
 	}
 };
 
