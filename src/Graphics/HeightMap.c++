@@ -20,7 +20,9 @@
 
 using namespace Ogre;
 
-HeightMap::HeightMap(int width, int height, int tile_size) {
+HeightMap::HeightMap(int width, int height, int tile_size):
+		height_map_(Grid<float>(width*tile_size+1,height*tile_size+1)),
+		texture_map_(Grid<size_t>(width,height)){
     width_ = width;
     height_ = height;
     tile_size_ = tile_size;
@@ -28,8 +30,7 @@ HeightMap::HeightMap(int width, int height, int tile_size) {
     array_width_ = width_ * tile_size + 1;
     array_height_ = height_ * tile_size + 1;
 
-    height_map_ = Grid<float>(array_width_,array_height_);
-    texture_map_ =Grid<size_t>(width_,height_);
+    std::cout << width << " x " << height << " @ " << tile_size << std::endl;
 }
 
 float HeightMap::ElmToAltitude(int alt){
@@ -45,7 +46,7 @@ HeightMap::BuildFromElmArray(char * orig_map, char * orig_texture_map){
     height_map_[0][array_width_-1] = ElmToAltitude(orig_map[orig_array_width-1]);
     height_map_[array_height_-1][0] =
             ElmToAltitude(orig_map[orig_array_width*(orig_array_height-1)]);
-    height_map_[array_height_-1][array_width_] =
+    height_map_[array_height_-1][array_width_-1] =
             ElmToAltitude(orig_map[orig_array_height*orig_array_width-1]);
 
     //Borders
@@ -93,30 +94,31 @@ HeightMap::BuildFromElmArray(char * orig_map, char * orig_texture_map){
     for(size_t i = 0; i<height_-1; i++){
         for(size_t j = 0; j<width_-1; j++){
             size_t current;
-            try{
-                current = texture_id_association.at(orig_texture_map[i*width_+j]);
-            }catch(std::out_of_range error){
-                texture_id_association[orig_texture_map[i*width_+j]] = x;
-                current = x;
-                x++;
-            }
+            	if (texture_id_association.find(orig_texture_map[i*width_+j]) == texture_id_association.end()){
+                    texture_id_association[orig_texture_map[i*width_+j]] = x;
+                    std::cout << "adding " << x << std::endl;
+                    current = x;
+                    x++;
+            	}else{
+            		current = texture_id_association.at(orig_texture_map[i*width_+j]);
+            	}
             texture_map_[i][j] = current;
         }
     }
-    textures_.reserve(x);
     for(std::map<size_t,size_t>::iterator it = texture_id_association.begin();
             it != texture_id_association.end();
             it++){
         char temp[20];
         sprintf(temp,"tiles/tile%2d.bmp", it->first);
-        textures_[it->second] =  String(temp);
+        puts(temp);
+        textures_[it->second] = (temp);
     }
 
 }
 
 MeshPtr
 HeightMap::BuildMesh(){
-    MeshPtr mesh = MeshManager::getSingleton().createManual("Heightmap", "Map");
+    MeshPtr mesh = MeshManager::getSingleton().createManual("Heightmap", "General");
 
     size_t nVertices = array_height_*array_width_;
     size_t vertex_size = 3+3+2;
@@ -197,12 +199,14 @@ HeightMap::BuildMesh(){
         SubMesh* sub_mesh = mesh->createSubMesh();
 
         MaterialPtr material =
-                MaterialManager::getSingleton().create("material"+i,"Map");
+                MaterialManager::getSingleton().create("material"+i, "General");
         TexturePtr texture =
-                TextureManager::getSingleton().prepare(textures_[i],"Map");
+                TextureManager::getSingleton().load(textures_[i], "General");
 
         material->getTechnique(0)->getPass(0)
-            ->createTextureUnitState(textures_[i]);
+            ->createTextureUnitState()->setTextureName(texture->getName());
+
+        sub_mesh->setMaterialName("material"+i);
         //TODO work
 
         std::vector<uint16_t> mesh_faces;
@@ -210,8 +214,8 @@ HeightMap::BuildMesh(){
             for(int x = 0; x < width_*tile_size_; x++){
                 if(texture_map_[y/tile_size_][x/tile_size_] == i){
                     mesh_faces.push_back(y*array_width_+x);
-                    mesh_faces.push_back((y+1)*array_width_+x);
                     mesh_faces.push_back(y*array_width_+(x+1));
+                    mesh_faces.push_back((y+1)*array_width_+x);
 
                     mesh_faces.push_back((y+1)*array_width_+x);
                     mesh_faces.push_back(y*array_width_+(x+1));

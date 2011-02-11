@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-#include <OGRE/OgreMesh.h>
+#include <OgreMesh.h>
 
 #include <Tools/Grid.h>
 
@@ -24,7 +24,7 @@ class HeightMap {
         int array_height_;
         Grid<float> height_map_;
         Grid<size_t> texture_map_;
-        std::vector<std::string> textures_;
+        std::map<std::size_t, std::string> textures_;
 
         float ElmToAltitude(int alt);
     public:
