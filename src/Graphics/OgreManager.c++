@@ -1,12 +1,12 @@
-#include <OgreManager.h>
-
-namespace Game{
+#include "OgreManager.h"
+#include "Files/MapLoader.h"
+namespace Graphics{
 
 OgreManager::OgreManager():
 	root_(0),
 	camera_(0),
 	sceneManager_(0),
-	window_(0)
+	window_(0),
 	resourcesConfiguration_(Ogre::StringUtil::BLANK),
 	pluginsConfiguration_(Ogre::StringUtil::BLANK),
 	inputManager_(0),
@@ -20,6 +20,7 @@ OgreManager::~OgreManager(){
     windowClosed(window_);
     delete root_;
 }
+
 
 bool OgreManager::go(void){
 	#ifdef _DEBUG
@@ -46,7 +47,9 @@ bool OgreManager::go(void){
     while (seci.hasMoreElements())
     {
         secName = seci.peekNextKey();
-        for (auto i : seci.getNext())
+        Ogre::ConfigFile::SettingsMultiMap *settings = seci.getNext();
+        Ogre::ConfigFile::SettingsMultiMap::iterator i;
+        for (i = settings->begin(); i != settings->end(); ++i)
         {
             typeName = i->first;
             archName = i->second;
@@ -82,9 +85,9 @@ bool OgreManager::go(void){
     camera_ = sceneManager_->createCamera("PlayerCam");
 
     // Position it at 500 in Z direction
-    camera_->setPosition(Ogre::Vector3(0,0,80));
+    camera_->setPosition(Ogre::Vector3(-10,5,10));
     // Look back along -Z
-    camera_->lookAt(Ogre::Vector3(0,0,-300));
+    camera_->lookAt(Ogre::Vector3(0,0,0));
     camera_->setNearClipDistance(5);
 
 	//-------------------------------------------------------------------------------------
@@ -108,18 +111,9 @@ bool OgreManager::go(void){
     // load resources
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 	//-------------------------------------------------------------------------------------
-    // Create the scene
-	//    Ogre::Entity* ogreHead = mSceneMgr->createEntity("Head", "ogrehead.mesh");
 
-    //Ogre::SceneNode* headNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    //headNode->attachObject(ogreHead);
+    loadMap("maps/xlurp_ile.elm");
 
-    // Set ambient light
-    //mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
-
-    // Create a light
-    //Ogre::Light* l = mSceneMgr->createLight("MainLight");
-    //l->setPosition(20,80,50);
 //-------------------------------------------------------------------------------------
     //create FrameListener
     Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
@@ -145,12 +139,38 @@ bool OgreManager::go(void){
     //Register as a Window listener
     Ogre::WindowEventUtilities::addWindowEventListener(window_, this);
 
-    mRoot->addFrameListener(this);
+	root_->addFrameListener(this);
 //-------------------------------------------------------------------------------------
-    mRoot->startRendering();
+    root_->startRendering();
 
     return true;
 }
+
+void
+OgreManager::loadMap(std::string source){
+    // Create the scene
+	//    Ogre::Entity* ogreHead = mSceneMgr->createEntity("Head", "ogrehead.mesh");
+
+    //Ogre::SceneNode* headNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    //headNode->attachObject(ogreHead);
+
+    // Set ambient light
+	sceneManager_->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+
+    // Create a light
+    Ogre::Light* l = sceneManager_->createLight("MainLight");
+    l->setPosition(20,80,50);
+
+	Ogre::SceneNode* scene = sceneManager_->getRootSceneNode();
+
+//	scene->removeAndDestroyChild ("map");
+
+	Ogre::SceneNode* new_map = scene->createChildSceneNode("map");
+	MapLoader map_loader;
+	map_loader.loadMap(source, new_map, sceneManager_);
+
+}
+
 
 bool OgreManager::frameRenderingQueued(const Ogre::FrameEvent& evt){
 	if (window_->isClosed()) return false;
@@ -163,6 +183,12 @@ bool OgreManager::frameRenderingQueued(const Ogre::FrameEvent& evt){
 }
 
 bool OgreManager::keyPressed( const OIS::KeyEvent &arg ){
+    if (arg.key == OIS::KC_ESCAPE)
+    {
+    	shutDown_ = true;
+    }else if(arg.key == OIS::KC_L){
+
+    }else
 	Ogre::LogManager::getSingletonPtr()->logMessage("some asshole pressed a key");
     return true;
 }
@@ -202,11 +228,11 @@ void OgreManager::windowClosed(Ogre::RenderWindow* rw)
     {
         if( inputManager_ )
         {
-            mInputManager->destroyInputObject( mouse_ );
-            mInputManager->destroyInputObject( keyboard_ );
+            inputManager_->destroyInputObject( mouse_ );
+            inputManager_->destroyInputObject( keyboard_ );
 
             OIS::InputManager::destroyInputSystem(inputManager_);
-            mInputManager = 0;
+            inputManager_ = 0;
         }
     }
 }

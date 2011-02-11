@@ -2,6 +2,8 @@
 
 #define OGREMANAGER_VA02DJ6R
 
+#include <string>
+
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreLogManager.h>
@@ -19,8 +21,14 @@
 #include <SdkTrays.h>
 #include <SdkCameraMan.h>
 
-namespace Game{
-class OgreManager : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
+#include "Game/GameManager.h"
+
+namespace Graphics{
+class OgreManager : 
+	public Ogre::FrameListener, 
+	public Ogre::WindowEventListener, 
+	public OIS::KeyListener, 
+	public OIS::MouseListener, OgreBites::SdkTrayListener
 {
 public :
 	OgreManager();
@@ -30,8 +38,9 @@ public :
     Ogre::Camera* 		camera_;
     Ogre::SceneManager* sceneManager_;
     Ogre::RenderWindow* window_;
-    Ogre::String 		resourcesConfiguration_;
-    Ogre::String 		pluginsConfiguration_;
+    std::string 		resourcesConfiguration_;
+    std::string 		pluginsConfiguration_;
+    Game::GameManager*  game_manager_;
 
     bool shutDown_;
 
@@ -39,6 +48,13 @@ public :
     OIS::InputManager* 	inputManager_;
     OIS::Mouse*    		mouse_;
     OIS::Keyboard* 		keyboard_;
+
+    virtual void setGameManager(Game::GameManager& game_manager){
+		game_manager_ = &game_manager;
+	}
+
+
+    virtual void loadMap(std::string source);
 
     // Ogre::FrameListener
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
