@@ -1,0 +1,20 @@
+[use_area]
+min_x: 51
+min_y: 48
+max_x: 53
+max_y: 52
+teleport_x: 78
+teleport_y: 62
+teleport_map: xlurp_grotte.elm
+map_object_id: 18
+inv_object_id: -1
+send_sparks: 0
+too_far_text: ''
+wrong_object_text: 'Rien ne se passe.'
+use_text: ''
+[/use_area]
+
+[object_name]
+object_id: 126
+object_name: 'Quel plaisirs de voler un nain.'
+[/object_name]

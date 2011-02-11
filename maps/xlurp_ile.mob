@@ -1,0 +1,12 @@
+# the syntax of the mob file :
+# all params is separate with blanks space
+# quantity (int, optionnal) visual name (String) x  y (int, coord in the map the mob spawn in a square of 10x10, x,y is center)
+rat 12 12
+
+# or
+# quantity (int, optionnal) visual name (String) minx miny maxx maxy (int coord of the square where mobs spawns
+# if the visual name has blank surround it with "
+# line start with # was comment
+1 rat 27 12 31 15
+5 rat 27 12 31 15
+5 castor 60 80

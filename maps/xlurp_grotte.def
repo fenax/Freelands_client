@@ -1,0 +1,53 @@
+[use_area]
+min_x: 53
+min_y: 23
+max_x: 55
+max_y: 25
+teleport_x: 21
+teleport_y: 6
+teleport_map: xlurp_ile.elm
+map_object_id: 116
+inv_object_id: -1
+send_sparks: 0
+too_far_text: ''
+wrong_object_text: 'Rien ne se passe.'
+use_text: 'Enfin l'air libre!'
+[/use_area]
+
+[use_area]
+min_x: 29
+min_y: 14
+max_x: 31
+max_y: 16
+teleport_x: 5
+teleport_y: 49
+teleport_map: xlurp_ile.elm
+map_object_id: 32
+inv_object_id: -1
+send_sparks: 0
+too_far_text: 'Rapproche toi de la barque.'
+wrong_object_text: 'Rien ne se passe.'
+use_text: 'Retours à l'île principale.'
+[/use_area]
+
+[use_area]
+min_x: 76
+min_y: 59
+max_x: 79
+max_y: 63
+teleport_x: 51
+teleport_y: 50
+teleport_map: xlurp_maison.elm
+map_object_id: 31
+inv_object_id: -1
+send_sparks: 0
+too_far_text: ''
+wrong_object_text: 'Rien ne se passe.'
+use_text: 'Tu arrives dans la vieille maison en ruine.'
+[/use_area]
+
+
+[object_name]
+object_id: 108
+object_name: 'Héhé, un crâne de nain.'
+[/object_name]

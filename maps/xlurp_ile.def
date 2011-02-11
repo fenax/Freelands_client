@@ -1,0 +1,68 @@
+[use_area]
+min_x: 5
+min_y: 48
+max_x: 6
+max_y: 51
+teleport_x: 30
+teleport_y: 16
+teleport_map: xlurp_grotte.elm
+map_object_id: 102
+inv_object_id: -1
+send_sparks: 0
+too_far_text: 'Tu ne vois pas grand chose à travers le buisson à cette distance, rapproche-toi...'
+wrong_object_text: 'Rien ne se passe.'
+use_text: 'Tu écartes les branches du buisson, et découvre une porte trés ancienne.'
+[/use_area]
+
+[use_area]
+min_x: 62
+min_y: 83
+max_x: 67
+max_y: 84
+teleport_x: 82
+teleport_y: 85
+teleport_map: xlurp_ile.elm
+map_object_id: 443
+inv_object_id: -1
+send_sparks: 0
+too_far_text: 'Rapproche toi de la barque.'
+wrong_object_text: 'Rien ne se passe.'
+use_text: 'La braque t emmene vers une petite île'
+[/use_area]
+
+[use_area]
+min_x: 82
+min_y: 83
+max_x: 84
+max_y: 85
+teleport_x: 71
+teleport_y: 84
+teleport_map: xlurp_ile.elm
+map_object_id: 479
+inv_object_id: -1
+send_sparks: 0
+too_far_text: ''
+wrong_object_text: 'Rien ne se passe.'
+use_text: 'La braque te rammene vers l'île principale.'
+[/use_area]
+
+[use_area]
+min_x: 25
+min_y: 25
+max_x: 31
+max_y: 31
+teleport_x: 54
+teleport_y: 24
+teleport_map: xlurp_grotte
+map_object_id: 201
+inv_object_id: -1
+send_sparks: 0
+too_far_text: ''
+wrong_object_text: 'Rien ne se passe.'
+use_text: 'Tu retournes dansla caverne.'
+[/use_area]
+
+[object_name]
+object_id: 68
+object_name: 'XlurP - Un nain compris'
+[/object_name]
