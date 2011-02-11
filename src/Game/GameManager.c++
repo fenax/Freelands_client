@@ -29,6 +29,13 @@
 namespace Game
 {
 
+	bool
+	OrderLoadMap::process(){
+//		MapLoader
+		return true;
+	}
+
+
 GameManager::GameManager()
 {
 	// TODO Auto-generated constructor stub
@@ -136,6 +143,32 @@ GameManager::giveActorCommand(boost::int16_t id,boost::int8_t command){
 		}
 	}
 	std::cout << "could not find actor to give command \n";
+}
+
+void
+GameManager::thread(){
+	while(1){
+		Order* order = orders_queue_.blockingPop();
+		if(!order->process()){
+			break;
+		}
+	}
+}
+
+
+void
+GameManager::start(){
+    assert(!thread_);
+	thread_ = boost::shared_ptr<boost::thread>(
+			new boost::thread(
+					boost::bind(&GameManager::thread, this)));
+}
+void
+GameManager::stop(){
+	assert(thread_);
+//	stoprequested_ = true;
+//	TODO put stop order in queue
+	thread_->join();
 }
 
 }

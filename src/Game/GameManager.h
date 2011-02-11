@@ -29,6 +29,7 @@
 #include <vector>
 #include <deque>
 #include <boost/noncopyable.hpp>
+#include <boost/thread.hpp>
 
 #include "Tools/Queue.h"
 #include "Game/Actor.h"
@@ -37,14 +38,30 @@
 namespace Game
 {
 
+	class Order
+	{
+		public:
+			virtual bool process()=0;
+	};
+
+	class OrderLoadMap : Order
+	{
+		public:
+			std::string filename;
+			virtual bool process();
+	};
+
 class GameManager : boost::noncopyable
 {
 private:
-	int64_t player_id_;
+	int64_t 		  player_id_;
 	std::deque<Actor> actors_;//TODO maybe use a list
-	Player player_;
-	boost::uint8_t hour_;
-	boost::uint8_t minute_;
+	Player 		   	  player_;
+	boost::uint8_t 	  hour_;
+	boost::uint8_t    minute_;
+	boost::shared_ptr<boost::thread> thread_;
+	Tools::Queue<Order*>		orders_queue_;
+
 
 
 public:
@@ -54,20 +71,24 @@ public:
 	void giveError(std::string type, std::string message="");
 	void giveOk(std::string type, std::string message="");
 	void givePlayerId(boost::int64_t player_id);
-    void giveTime(boost::int8_t hour, boost::int8_t minute);
-    void giveSigils(boost::int32_t sigils);
-    void giveActiveSpells(std::vector<boost::int8_t> active_spells);
-    void giveRawMessage(std::string message);
-    void giveNewMap(std::string map);
-    virtual void giveNewActor(Actor& actor);
-    virtual void giveNewActor(EnhancedActor& actor);
+	void giveTime(boost::int8_t hour, boost::int8_t minute);
+	void giveSigils(boost::int32_t sigils);
+	void giveActiveSpells(std::vector<boost::int8_t> active_spells);
+	void giveRawMessage(std::string message);
+	void giveNewMap(std::string map);
+	virtual void giveNewActor(Actor& actor);
+	virtual void giveNewActor(EnhancedActor& actor);
 
-    void giveRemoveActor(boost::int16_t id);
-    void giveActorCommand(boost::int16_t id, boost::int8_t command);
+	void giveRemoveActor(boost::int16_t id);
+	void giveActorCommand(boost::int16_t id, boost::int8_t command);
 
-    Actor& getActor(boost::int16_t id);
+	Actor& getActor(boost::int16_t id);
 
-    Player& getPlayer();
+	Player& getPlayer();
+
+	void thread();
+	void start();
+    void stop();
 
 
 
