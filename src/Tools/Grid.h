@@ -28,7 +28,8 @@ public:
     virtual ~Grid(){
         if (array_){
             delete[] array_;
-        }
+            array_ = 0;
+       }
     }
 
     T* operator[](int index){
