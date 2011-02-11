@@ -7,14 +7,18 @@
 
 #include "MapLoader.h"
 #include "Network/Buffer.h"
-#include "Graphics/HeightMap.h"
 
-MapLoader::MapLoader(Game::GameManager & game_manager):FileLoader(game_manager) {
+MapLoader::MapLoader(/*Game::GameManager & game_manager*/):FileLoader(/*game_manager*/) {
     
 }
 
 void
 MapLoader::loadFile(std::string filename){
+
+}
+
+void
+MapLoader::loadMap(std::string filename, Ogre::SceneNode* new_map, Ogre::SceneManager* scene_manager){
     Network::Buffer & file = readFile(filename);
 
     std::string magic = file.read_string(4);
@@ -155,5 +159,9 @@ MapLoader::loadFile(std::string filename){
     }
     HeightMap map(tile_map_x_len, tile_map_y_len, 6);
     map.BuildFromElmArray(height,texture);
-    map.BuildMesh();
+
+    Ogre::Entity * entity_map = scene_manager->createEntity(map.BuildMesh()->getName());
+
+    new_map->attachObject(entity_map);
 }
+
