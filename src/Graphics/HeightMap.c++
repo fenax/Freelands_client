@@ -51,7 +51,7 @@ HeightMap::BuildFromElmArray(char * orig_map, char * orig_texture_map){
 
     //Borders
     //top and bottom.
-    for(int i = 1; i < array_width_ - 2; i++){
+    for(int i = 1; i <= array_width_ - 2; i++){
         height_map_[0][i] = ( ElmToAltitude(orig_map[i-1])
                      + ElmToAltitude(orig_map[i])
                      )  / 2.0;
@@ -63,7 +63,7 @@ HeightMap::BuildFromElmArray(char * orig_map, char * orig_texture_map){
                      )  / 2.0;
     }
     //left and right
-    for(int i = 1; i < array_height_ - 2; i++){
+    for(int i = 1; i <= array_height_ - 2; i++){
         height_map_[i][0] = ( ElmToAltitude(orig_map[(i-1)*orig_array_width])
                      + ElmToAltitude(orig_map[(i)*orig_array_width])
                      ) / 2.0;
@@ -76,8 +76,8 @@ HeightMap::BuildFromElmArray(char * orig_map, char * orig_texture_map){
     }
 
     //Middle
-    for(int i = 1; i < array_height_ - 2; i++){
-        for(int j = 1; j < array_width_ - 2; j++){
+    for(int i = 1; i <= array_height_ - 2; i++){
+        for(int j = 1; j <= array_width_ - 2; j++){
             height_map_[i][j] =
                     (
                       ElmToAltitude(orig_map[i-1 + orig_array_width*(j-1)])
