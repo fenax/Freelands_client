@@ -131,13 +131,9 @@ Buffer::read_c_string(){
 
 std::string
 Buffer::read_string(int size){
-    std::string out = "";
-    for(int i = 0; i < size; i++){
-        char c = sgetc();
-        sbumpc();
-	out.append(&c);
-    }
-    return out;
+	char out[size];
+	sgetn(out, size);
+    return std::string(out,0,size);
 }
 
 float
