@@ -41,6 +41,7 @@ public :
     std::string 		resourcesConfiguration_;
     std::string 		pluginsConfiguration_;
     Game::GameManager*  game_manager_;
+    OgreBites::SdkCameraMan* cameraMan_;      // basic camera controller
 
     bool shutDown_;
 

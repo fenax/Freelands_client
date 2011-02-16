@@ -16,6 +16,8 @@ OgreManager::OgreManager():
 {}
 
 OgreManager::~OgreManager(){
+    if (cameraMan_) delete cameraMan_;
+
     Ogre::WindowEventUtilities::removeWindowEventListener(window_, this);
     windowClosed(window_);
     delete root_;
@@ -85,10 +87,11 @@ bool OgreManager::go(void){
     camera_ = sceneManager_->createCamera("PlayerCam");
 
     // Position it at 500 in Z direction
-    camera_->setPosition(Ogre::Vector3(-10,5,10));
+    camera_->setPosition(Ogre::Vector3(75,5,-75));
     // Look back along -Z
     camera_->lookAt(Ogre::Vector3(0,0,0));
     camera_->setNearClipDistance(5);
+    cameraMan_ = new OgreBites::SdkCameraMan(camera_);   // create a default camera controller
 
 	//-------------------------------------------------------------------------------------
     // create viewports
@@ -176,6 +179,7 @@ bool OgreManager::frameRenderingQueued(const Ogre::FrameEvent& evt){
 	if (window_->isClosed()) return false;
 	if (shutDown_) return false;
 
+	cameraMan_->frameRenderingQueued(evt);
 	keyboard_->capture();
 	mouse_->capture();
 
@@ -190,22 +194,28 @@ bool OgreManager::keyPressed( const OIS::KeyEvent &arg ){
 
     }else
 	Ogre::LogManager::getSingletonPtr()->logMessage("some asshole pressed a key");
+    cameraMan_->injectKeyDown(arg);
+
     return true;
 }
 
 bool OgreManager::keyReleased( const OIS::KeyEvent &arg ){
+	cameraMan_->injectKeyUp(arg);
     return true;
 }
 
 bool OgreManager::mouseMoved( const OIS::MouseEvent &arg ){
+	cameraMan_->injectMouseMove(arg);
     return true;
 }
 	
 bool OgreManager::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){
+	cameraMan_->injectMouseDown(arg,id);
     return true;
 }
 
 bool OgreManager::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){
+	cameraMan_->injectMouseUp(arg,id);
     return true;
 }
 
