@@ -28,7 +28,6 @@
 #include <boost/cstdint.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
-#include <OgreEntity.h>
 
 namespace Game
 {
@@ -37,7 +36,7 @@ class Actor
 {
 
 protected:
-	Ogre::Entity* entity_;
+	void* entity_;
 
 	boost::int16_t id_;
 
